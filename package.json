@@ -18,9 +18,11 @@
   "homepage": "https://github.com/YComputer/weixin#readme",
   "dependencies": {
     "bluebird": "^3.4.0",
+    "crypto": "0.0.3",
     "koa": "^1.2.0",
     "raw-body": "^2.1.6",
     "sha1": "^1.1.1",
+    "thunkify": "^2.1.2",
     "xml2js": "^0.4.16"
   }
 }

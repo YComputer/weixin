@@ -4,6 +4,8 @@ var koa = require('koa')
 var sha1 = require('sha1')
 var getRawBody = require('raw-body')
 var utils = require('./utils')
+var WxCrypto = require('./wxCrypto')
+
 
 
 var port = 80
@@ -11,7 +13,8 @@ var config = {
   weixinOpenGongzhonghao:{
     appID: 'wxb6fa0468346e9059',
     appSecret: '485707e19a85b41ace9057e09690bcf8',
-    token: 'testtest'
+    token: 'testtest',
+    key: 'AXaRooRMwPQg1bFdD3906oYAzYsgR5M7sn7WDPQJ30L'
   }
 }
 
@@ -47,6 +50,10 @@ app.use(function* (next){
 
       var message = utils.formatMessage(content.xml)
       console.log('json object to plain json object\n', message)
+
+      var componentVerifyTicket = new WxCrypto(config.weixinOpenGongzhonghao.token, config.weixinOpenGongzhonghao.appID, config.weixinOpenGongzhonghao.key).decrypt(message.Encrypt)
+      console.log('componentVerifyTicket is: ', componentVerifyTicket)
+
     }
 
     this.body = 'What is happen?'
