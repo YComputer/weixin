@@ -27,8 +27,11 @@ app.use(function* (next){
 
   if(sha1Str === signature){
     this.body = echostr + ''
+    console.log(echostr+'')
   }else{
     this.body = '微信server以外的请求'
+    console.log('微信server以外的请求')
+
   }
 
 })
