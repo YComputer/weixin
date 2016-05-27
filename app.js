@@ -1,15 +1,17 @@
 'use strict'
 
 var koa = require('koa')
+var Promise = require('bluebird')
 var sha1 = require('sha1')
 var getRawBody = require('raw-body')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
 var path = require('path')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
-
+var request = Promise.promisify(require('request'))
 
 var port = 80
+
 var config = {
   weixinOpenGongzhonghao:{
     appID: 'wxb6fa0468346e9059',
@@ -17,6 +19,11 @@ var config = {
     token: 'testtest',
     key: 'AXaRooRMwPQg1bFdD3906oYAzYsgR5M7sn7WDPQJ30L'
   }
+}
+
+var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
+var api = {
+  componentAccessToken: prefix + 'api_component_token'
 }
 
 var app = new koa()
@@ -58,6 +65,29 @@ app.use(function* (next){
 
       // save verifyTicket
       utils.writeFileAsync(verify_ticket_file, verifyTicket.ComponentVerifyTicket)
+
+      // reques api_component_token
+      var form = {
+          component_appid: config.weixinOpenGongzhonghao.appID,
+          component_appsecret: config.weixinOpenGongzhonghao.appSecret,
+          component_verify_ticket: 'ticket@@@R74F1ZQWcnyYVHJg-p4Dg-4nPijRQfdeAc_FkpNOe75NSeYeaK0EF0GOQkpBPjtrvaN9A8bfonQNnfBwVk4sRA'
+      }
+      var url = api.componentAccessToken
+      request({method: 'POST',url: url, body: form, json: true})
+        .then(function(response) {
+          var _data = response.body
+          console.log('componentAccessToken result: ',_data)
+          if (_data) {
+              resolve(_data)
+          } else {
+              throw new Error('Delete material failed')
+          }
+        }).catch(function(err) {
+            reject(err)
+        })
+
+
+
 
     }
 
