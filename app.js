@@ -26,11 +26,17 @@ app.use(function* (next){
   var sha1Str = sha1(str)
 
   if(sha1Str === signature){
+    console.log('request from weixin server↓↓↓↓\n' +
+        ' method is %s \n url is %s \n data is %s \n' +
+        'request from weixin server↑↑↑↑',
+        this.method, this.url, JSON.stringify(this.query))
     this.body = echostr + ''
-    console.log(echostr+'')
   }else{
+    console.log('request from other↓↓↓↓\n' +
+        ' method is %s \n url is %s \n data is %s \n' +
+        'request from weixin server↑↑↑↑',
+        this.method, this.url, JSON.stringify(this.query))
     this.body = '微信server以外的请求'
-    console.log('微信server以外的请求')
 
   }
 
