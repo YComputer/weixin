@@ -5,6 +5,8 @@ var sha1 = require('sha1')
 var getRawBody = require('raw-body')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
+var path = require('path')
+
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 
 
