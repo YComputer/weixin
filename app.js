@@ -101,7 +101,9 @@ app.use(function* (next){
             //  this.body = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=" + config.weixinOpenGongzhonghao.appID + "&pre_auth_code=" + body.pre_auth_code + "&redirect_uri=" + redirect'>点击授权</a>'
             //  '<a href="'+redirect+'" />'
 
-            var temp =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
+            var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
+
+            this.body = htmlSource
             })
 
 
