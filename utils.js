@@ -2,6 +2,7 @@
 
 var xml2js = require('xml2js')
 var Promise = require('bluebird')
+var fs = require('fs')
 
 exports.parseXMLAsync = function(xml) {
     return new Promise(function(resolve, reject) {
@@ -45,3 +46,28 @@ function formatMessage(result) {
     return message
 }
 exports.formatMessage = formatMessage
+
+exports.readFileAsync = function(fpath, encoding){
+	return new Promise(function(reslove, reject){
+		fs.readFile(fpath, encoding, function(err, content){
+			if(err){
+				console.log('read token err---', err)
+				reject(err)
+			}else{
+				reslove(content)
+			}
+		})
+	})
+}
+
+exports.writeFileAsync = function(fpath, content){
+	return new Promise(function(reslove, reject){
+		fs.writeFile(fpath, content, function(err){
+			if(err){
+				reject(err)
+			}else{
+				reslove()
+			}
+		})
+	})
+}

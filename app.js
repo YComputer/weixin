@@ -5,7 +5,7 @@ var sha1 = require('sha1')
 var getRawBody = require('raw-body')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
-
+var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 
 
 var port = 80
@@ -47,12 +47,16 @@ app.use(function* (next){
 
       var content = yield utils.parseXMLAsync(data)
       console.log('raw data to json object\n', content)
-
       var message = utils.formatMessage(content.xml)
       console.log('json object to plain json object\n', message)
 
-      var componentVerifyTicket = new WxCrypto(config.weixinOpenGongzhonghao.token, config.weixinOpenGongzhonghao.appID, config.weixinOpenGongzhonghao.key).decrypt(message.Encrypt)
-      console.log('componentVerifyTicket is: ', componentVerifyTicket)
+      var xmlVerifyTicket = new WxCrypto(config.weixinOpenGongzhonghao.token, config.weixinOpenGongzhonghao.appID, config.weixinOpenGongzhonghao.key).decrypt(message.Encrypt)
+      var rawVerifyTicket = yield utils.parseXMLAsync(xmlVerifyTicket)
+      var verifyTicket = utils.formatMessage(rawVerifyTicket.xml)
+      console.log('componentVerifyTicket is: ', JSON.stringify(verifyTicket))
+
+      // save verifyTicket
+      utils.writeFileAsync(verify_ticket_file, verifyTicket)
 
     }
 
