@@ -26,7 +26,8 @@ var config = {
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
   componentAccessToken: prefix + 'api_component_token',
-  prePuthCode: prefix + 'api_create_preauthcode?'
+  prePuthCode: prefix + 'api_create_preauthcode?',
+  authUrl: ''
 }
 
 var app = new koa()
@@ -94,6 +95,13 @@ app.use(function* (next){
                 console.log(error)
               }
               console.log('prePuthCode body ----------', body.pre_auth_code)
+              // 和获取token一样，预授权码也有有效期，一般为1800秒，记得及时更新
+              var redirect = 'www.baidu.com'
+              //this.body = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'>'点击授权'</a>';
+            //  this.body = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=" + config.weixinOpenGongzhonghao.appID + "&pre_auth_code=" + body.pre_auth_code + "&redirect_uri=" + redirect'>点击授权</a>'
+            //  '<a href="'+redirect+'" />'
+
+            var temp =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
             })
 
 
@@ -109,7 +117,7 @@ app.use(function* (next){
   }else{
     console.log('request from other↓↓↓↓\n' +
         ' method is %s \n path is %s \n query is %s \n' +
-        'request from weixin server↑↑↑↑',
+        'request from other↑↑↑↑',
         this.method, this.url, JSON.stringify(this.query))
 
     this.body = '微信server以外的请求'
