@@ -8,7 +8,9 @@ var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
 var path = require('path')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
-var request = Promise.promisify(require('request'))
+//var request = Promise.promisify(require('request'))
+var request = require('request')
+
 
 var port = 80
 
@@ -23,7 +25,8 @@ var config = {
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
-  componentAccessToken: prefix + 'api_component_token'
+  componentAccessToken: prefix + 'api_component_token',
+  prePuthCode: prefix + 'api_create_preauthcode?'
 }
 
 var app = new koa()
@@ -72,20 +75,16 @@ app.use(function* (next){
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
           component_verify_ticket: 'ticket@@@R74F1ZQWcnyYVHJg-p4Dg-4nPijRQfdeAc_FkpNOe75NSeYeaK0EF0GOQkpBPjtrvaN9A8bfonQNnfBwVk4sRA'
       }
-      var url = api.componentAccessToken
-      request({method: 'POST',url: url, body: form, json: true})
-        .then(function(response) {
-          var _data = response.body
-          console.log('componentAccessToken result: ',_data)
-          if (_data) {
-              resolve(_data)
-          } else {
-              throw new Error('Delete material failed')
-          }
-        }).catch(function(err) {
-            reject(err)
-        })
 
+      var url = api.componentAccessToken
+      request({method: 'POST',url: url, body: form, json: true},
+        function(error, response, body){
+          if (error) {
+            console.log(error)
+          }
+          console.log('body ----------',body)
+          console.log('response.body ----------', response.body)
+        })
 
 
 
