@@ -5,20 +5,9 @@ var sha1 = require('sha1')
 var getRawBody = require('raw-body')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
-var path = require('path')
-
-var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
-
+var config = require('./config/config')
 
 var port = 80
-var config = {
-  weixinOpenGongzhonghao:{
-    appID: 'wxb6fa0468346e9059',
-    appSecret: '485707e19a85b41ace9057e09690bcf8',
-    token: 'testtest',
-    key: 'AXaRooRMwPQg1bFdD3906oYAzYsgR5M7sn7WDPQJ30L'
-  }
-}
 
 var app = new koa()
 
@@ -58,7 +47,8 @@ app.use(function* (next){
       console.log('componentVerifyTicket is: ', JSON.stringify(verifyTicket))
 
       // save verifyTicket
-      utils.writeFileAsync(verify_ticket_file, JSON.stringify(verifyTicket))
+      config.saveVerifyTicket(JSON.stringify(verifyTicket))
+      //utils.writeFileAsync(verify_ticket_file, JSON.stringify(verifyTicket))
 
     }
 
