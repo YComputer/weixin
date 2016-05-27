@@ -58,7 +58,7 @@ app.use(function* (next){
       console.log('componentVerifyTicket is: ', JSON.stringify(verifyTicket))
 
       // save verifyTicket
-      utils.writeFileAsync(verify_ticket_file, verifyTicket)
+      utils.writeFileAsync(verify_ticket_file, JSON.stringify(verifyTicket))
 
     }
 
