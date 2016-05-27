@@ -1,0 +1,23 @@
+{
+  "name": "weixin",
+  "version": "1.0.0",
+  "description": "weixin open gongzhaonghao auth",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YComputer/weixin.git"
+  },
+  "author": "xiaobing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YComputer/weixin/issues"
+  },
+  "homepage": "https://github.com/YComputer/weixin#readme",
+  "dependencies": {
+    "koa": "^1.2.0",
+    "sha1": "^1.1.1"
+  }
+}
