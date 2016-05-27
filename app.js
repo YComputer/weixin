@@ -2,6 +2,9 @@
 
 var koa = require('koa')
 var sha1 = require('sha1')
+var getRawBody = require('raw-body')
+var utils = require('./utils')
+
 
 var port = 80
 var config = {
@@ -26,18 +29,34 @@ app.use(function* (next){
   var sha1Str = sha1(str)
 
   if(sha1Str === signature){
-    console.log('request from weixin server↓↓↓↓\n' +
-        ' method is %s \n url is %s \n data is %s \n' +
-        'request from weixin server↑↑↑↑',
-        this.method, this.url, JSON.stringify(this.query))
-    this.body = echostr + ''
+    if(this.method === 'GET'){
+      console.log('request from weixin server↓↓↓↓\n' +
+          ' method is %s \n path is %s \n query is %s \n' +
+          'request from weixin server↑↑↑↑',
+          this.method, this.url, JSON.stringify(this.query))
+    }else if(this.method === 'POST'){
+      var data = yield getRawBody(this.req, { length: this.length, limit: '1mb', encoding: this.charset })
+
+      console.log('request from weixin server↓↓↓↓\n' +
+          ' method is %s \n path is %s \n data is %s \n' +
+          'request from weixin server↑↑↑↑',
+          this.method, this.url, data.toString())
+
+      var content = yield utils.parseXMLAsync(data)
+      console.log('raw data to json object\n', content)
+
+      var message = utils.formatMessage(content.xml)
+      console.log('json object to plain json object\n', message)
+    }
+
+    this.body = 'What is happen?'
   }else{
     console.log('request from other↓↓↓↓\n' +
-        ' method is %s \n url is %s \n data is %s \n' +
+        ' method is %s \n path is %s \n query is %s \n' +
         'request from weixin server↑↑↑↑',
         this.method, this.url, JSON.stringify(this.query))
-    this.body = '微信server以外的请求'
 
+    this.body = '微信server以外的请求'
   }
 
 })
