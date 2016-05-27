@@ -82,8 +82,23 @@ app.use(function* (next){
           if (error) {
             console.log(error)
           }
-          console.log('body ----------',body)
-          console.log('response.body ----------', response.body)
+          console.log('componentAccessToken body ----------',body)
+          // request pre_auth_code
+          var form2 = {
+              component_appid: config.weixinOpenGongzhonghao.appID
+          }
+          var url2 = api.prePuthCode + 'component_access_token=' + body.component_access_token
+          request({method: 'POST',url: url2, body: form2, json: true},
+            function(error, response, body){
+              if (error) {
+                console.log(error)
+              }
+              console.log('prePuthCode body ----------', body.pre_auth_code)
+            })
+
+
+
+          //end
         })
 
 
