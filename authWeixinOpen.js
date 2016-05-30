@@ -20,15 +20,18 @@ module.exports = function(config) {
     if (this.url.indexOf('/authWeixinOpen') > -1) {
       var componentVerifyTicket
       // read verify ticket
-      utils.readFileAsync(verify_ticket_file, 'utf-8')
-           .then(function(data){
-             try {
-                 componentVerifyTicket = data.toString()
-                 console.log('read componentVerifyTicket is ', componentVerifyTicket)
-             } catch (e) {
-                 console.log('read verify ticket failed', e)
-             }
-           })
+      // utils.readFileAsync(verify_ticket_file, 'utf-8')
+      //      .then(function(data){
+      //        try {
+      //            componentVerifyTicket = data.toString()
+      //            console.log('read componentVerifyTicket is ', componentVerifyTicket)
+      //        } catch (e) {
+      //            console.log('read verify ticket failed', e)
+      //        }
+      //      })
+      var readData = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
+
+      console.log('readData is: ', readData)
 
       // reques api_component_token start
       var form = {
