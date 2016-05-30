@@ -71,6 +71,8 @@ module.exports = function(config) {
           //end
         })
         // reques api_component_token end
+        this.body = 'hagahaha'
+
         return next
     }
     console.log('进入－－－－－跟路由－－－－－')
