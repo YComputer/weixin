@@ -9,8 +9,7 @@ var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
   componentAccessToken: prefix + 'api_component_token',
-  prePuthCode: prefix + 'api_create_preauthcode?',
-  authUrl: ''
+  prePuthCode: prefix + 'api_create_preauthcode?'
 }
 
 

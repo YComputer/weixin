@@ -3,7 +3,8 @@
 
 var utils = require('./utils')
 var path = require('path')
-
+//var request = Promise.promisify(require('request'))
+var request = require('request')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
