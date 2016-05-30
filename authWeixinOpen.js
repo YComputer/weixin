@@ -18,37 +18,35 @@ module.exports = function(config) {
 
   return function*(next) {
     if (this.url.indexOf('/authWeixinOpen') > -1) {
-      // var componentVerifyTicket
-      // read verify ticket
-      // utils.readFileAsync(verify_ticket_file, 'utf-8')
-      //      .then(function(data){
-      //        try {
-      //            componentVerifyTicket = data.toString()
-      //            console.log('read componentVerifyTicket is ', componentVerifyTicket)
-      //        } catch (e) {
-      //            console.log('read verify ticket failed', e)
-      //        }
-      //      })
+
       var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
       console.log('read verify tcket is: ',componentVerifyTicket)
-      // reques api_component_token start
+
       var form = {
           component_appid: config.weixinOpenGongzhonghao.appID,
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
           component_verify_ticket: 'ticket@@@imcFBeYkTV3nL0ng4w5ExE2uh0T4WjyuhCZbyLf2z3nNMhtez45FDikCcZYED6hFQarmVef8IPo-X_hJWYIQ7Q'
       }
       var url = api.componentAccessToken
-
       var ComponentAccessToken = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body.component_access_token)
                   })
-
               })
-      //var ComponentAccessToken = yield accessToken
-      console.log('component access token is: ',ComponentAccessToken)
+      console.log('component access token is: ', ComponentAccessToken)
 
+      var form2 = {
+              component_appid: config.weixinOpenGongzhonghao.appID
+            }
+      var url2 = api.prePuthCode + 'component_access_token=' + ComponentAccessToken
+      var preAuthCode = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: url2, body: form2, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body.pre_auth_code)
+                  })
+              })
+      console.log('pre auth code is: ', preAuthCode)
 
       // request({method: 'POST',url: url, body: form, json: true},
       //   function(error, response, body){
