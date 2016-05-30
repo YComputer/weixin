@@ -1,6 +1,6 @@
 'use strict'
 
-
+var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
 var request = Promise.promisify(require('request'))
@@ -39,14 +39,14 @@ module.exports = function(config) {
       }
       var url = api.componentAccessToken
 
-      var ComponentAccessToken = yield return new Promise(function(resolve, reject) {
+      var accessToken =  new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body.component_access_token)
                   })
 
               })
-
+      var ComponentAccessToken = yield accessToken()
       console.log('component access token is: ',ComponentAccessToken)
 
 
@@ -79,7 +79,7 @@ module.exports = function(config) {
       //       })
       //     //end
       //   })
-      
+
         // reques api_component_token end
         this.body = 'hagahaha'
 
