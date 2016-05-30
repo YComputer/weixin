@@ -18,7 +18,7 @@ module.exports = function(config) {
 
   return function*(next) {
     console.log('url is ----- ',this.url)
-    if (this.url.indexOf('/authWeixinOpenCallback') > -1) {
+    if (this.url.indexOf('/callbackOfAuthWeixinOpen') > -1) {
       console.log('callback!!!!!!!!!!')
       this.body = JSON.stringify(this.query)
       return next

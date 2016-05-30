@@ -13,7 +13,7 @@ var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 //var request = Promise.promisify(require('request'))
 var request = require('request')
 var authWeixinOpen = require('./authWeixinOpen')
-var authWeixinOpenCallback = require('./authWeixinOpenCallback')
+var callbackOfAuthWeixinOpen = require('./callbackOfAuthWeixinOpen')
 
 
 
@@ -65,7 +65,7 @@ var api = {
 
 
 app.use(authWeixinOpen(config))
-app.use(authWeixinOpenCallback(config))
+app.use(callbackOfAuthWeixinOpen(config))
 
 app.use(function* (next){
   console.log(this.query)
