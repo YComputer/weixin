@@ -34,10 +34,13 @@ module.exports = function(config) {
       var form = {
           component_appid: config.weixinOpenGongzhonghao.appID,
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-          component_verify_ticket: componentVerifyTicket
+          component_verify_ticket: componentVerifyTic
       }
 
       var url = api.componentAccessToken
+      console.log(url)
+      console.log(JSON.stringify(form))
+
       request({method: 'POST',url: url, body: form, json: true},
         function(error, response, body){
           if (error) {
