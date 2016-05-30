@@ -3,6 +3,9 @@
 
 var utils = require('./utils')
 var path = require('path')
+//var request = Promise.promisify(require('request'))
+var request = require('request')
+var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 
@@ -33,7 +36,7 @@ module.exports = function(config) {
       var form = {
           component_appid: config.weixinOpenGongzhonghao.appID,
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-          component_verify_ticket: componentVerifyTicket
+          component_verify_ticket: componentVerifyTicket+''
       }
 
       var url = api.componentAccessToken
