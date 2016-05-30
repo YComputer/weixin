@@ -17,11 +17,13 @@ var api = {
 module.exports = function(config) {
 
   return function*(next) {
+
     if (this.url.indexOf('/authWeixinOpenCallback') > -1) {
+      console.log('callback!!!!!!!!!!')
       this.body = JSON.stringify(this.query)
       return next
     }
-    console.log('进入－－－－－根路由－－－－－')
+    console.log('没有进入callback！！！！')
     yield next
   }
 
