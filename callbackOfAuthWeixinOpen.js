@@ -9,7 +9,7 @@ var request = Promise.promisify(require('request'))
 // var request = require('request')
 var component_access_token_file = path.join(__dirname, './component_access_token.txt')
 
-var params = []
+var params = {}
 var tpl = heredoc(function() {/*
   <!DOCTYPE html>
   <html>
@@ -74,7 +74,7 @@ module.exports = function(config) {
 
       https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=xxxx
       // 获取公众号基本信息 end
-      params.push('baseInfo='+body2)
+      params.baseInfo=body2
       this.body = ejs.render(tpl, params)
       //this.body = body2
       return next
