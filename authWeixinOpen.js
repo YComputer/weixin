@@ -61,7 +61,9 @@ module.exports = function(config) {
               // 和获取token一样，预授权码也有有效期，一般为1800秒，记得及时更新
               var redirect = 'http://101.200.159.232/authWeixinOpenCallback'
               var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
-
+              console.log('this.body is ',this.body)
+              console.log('htmlSource is ',htmlSource)
+            
               this.body = htmlSource
             })
           //end
