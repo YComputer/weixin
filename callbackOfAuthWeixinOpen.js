@@ -21,7 +21,7 @@ var tpl = heredoc(function() {/*
           <h1>公众号帐号基本信息<h1>
           <div id="baseInfo">'<%= baseInfo %>'</div>
           <h1>公众号关注者信息<h1>
-          <div id="followInfo">'<%= baseInfo %>'</div>
+          <div id="followInfo">'<%= followInfo %>'</div>
 
           <script src="http://zeptojs.com/zepto-docs.min.js"></script>
           <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
