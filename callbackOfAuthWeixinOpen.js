@@ -74,7 +74,7 @@ module.exports = function(config) {
 
       https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=xxxx
       // 获取公众号基本信息 end
-      params.baseInfo=body2
+      params.baseInfo=JSON.stringify(body2)
       this.body = ejs.render(tpl, params)
       //this.body = body2
       return next
