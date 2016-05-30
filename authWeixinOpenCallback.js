@@ -36,7 +36,7 @@ module.exports = function(config) {
       var form = {
           component_appid: config.weixinOpenGongzhonghao.appID,
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-          component_verify_ticket: componentVerifyTicket+''
+          component_verify_ticket: 'ticket@@@imcFBeYkTV3nL0ng4w5ExE2uh0T4WjyuhCZbyLf2z3nNMhtez45FDikCcZYED6hFQarmVef8IPo-X_hJWYIQ7Q'
       }
 
       var url = api.componentAccessToken
