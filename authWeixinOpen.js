@@ -63,8 +63,8 @@ module.exports = function(config) {
               var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
               console.log('this.body is ',this.body)
               console.log('htmlSource is ',htmlSource)
-            
-              this.body = htmlSource
+
+              this.body = 'hhhhhakjdfk;ajd;kfjaskdjf;asjdfjdfsjfdj'
             })
           //end
         })
