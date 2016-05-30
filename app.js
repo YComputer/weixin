@@ -43,7 +43,7 @@ var tpl = heredoc(function() {/*
       </body>
   </html>
 
-  */}
+  */})
 
 
 var config = {
