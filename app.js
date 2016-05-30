@@ -7,12 +7,44 @@ var getRawBody = require('raw-body')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
 var path = require('path')
+var ejs = require('ejs')
+var heredoc = require('heredoc')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
 //var request = Promise.promisify(require('request'))
 var request = require('request')
+var authWeixinOpen = require('./authWeixinOpen')
+var authWeixinOpenCallback = require('./authWeixinOpenCallback')
 
 
+
+var app = new koa()
 var port = 80
+
+var tpl = heredoc(function() {/*
+  <!DOCTYPE html>
+  <html>
+      <head>
+          <title>准备授权</title>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
+      </head>
+      <body>
+          <h1>点击按钮授权<h1>
+          <p id="title"></p>
+          <div id="auth">
+          <a href="<%= authUrl %>">授权</a>
+          </div>
+          <div id="afterAuth"></div>
+          <script src="http://zeptojs.com/zepto-docs.min.js"></script>
+          <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+          <script>
+          // ready
+
+          </script>
+      </body>
+  </html>
+
+  */}
+
 
 var config = {
   weixinOpenGongzhonghao:{
@@ -30,7 +62,10 @@ var api = {
   authUrl: ''
 }
 
-var app = new koa()
+
+
+app.use(authWeixinOpen(config))
+app.use(authWeixinOpenCallback(config))
 
 app.use(function* (next){
   console.log(this.query)
@@ -70,49 +105,6 @@ app.use(function* (next){
       // save verifyTicket
       utils.writeFileAsync(verify_ticket_file, verifyTicket.ComponentVerifyTicket)
 
-      // reques api_component_token
-      var form = {
-          component_appid: config.weixinOpenGongzhonghao.appID,
-          component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-          component_verify_ticket: 'ticket@@@R74F1ZQWcnyYVHJg-p4Dg-4nPijRQfdeAc_FkpNOe75NSeYeaK0EF0GOQkpBPjtrvaN9A8bfonQNnfBwVk4sRA'
-      }
-
-      var url = api.componentAccessToken
-      request({method: 'POST',url: url, body: form, json: true},
-        function(error, response, body){
-          if (error) {
-            console.log(error)
-          }
-          console.log('componentAccessToken body ----------',body)
-          // request pre_auth_code
-          var form2 = {
-              component_appid: config.weixinOpenGongzhonghao.appID
-          }
-          var url2 = api.prePuthCode + 'component_access_token=' + body.component_access_token
-          request({method: 'POST',url: url2, body: form2, json: true},
-            function(error, response, body){
-              if (error) {
-                console.log(error)
-              }
-              console.log('prePuthCode body ----------', body.pre_auth_code)
-              // 和获取token一样，预授权码也有有效期，一般为1800秒，记得及时更新
-              var redirect = 'www.baidu.com'
-              //this.body = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'>'点击授权'</a>';
-            //  this.body = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=" + config.weixinOpenGongzhonghao.appID + "&pre_auth_code=" + body.pre_auth_code + "&redirect_uri=" + redirect'>点击授权</a>'
-            //  '<a href="'+redirect+'" />'
-
-            var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
-
-            this.body = htmlSource
-            })
-
-
-
-          //end
-        })
-
-
-
     }
 
     this.body = 'What is happen?'
@@ -126,6 +118,7 @@ app.use(function* (next){
   }
 
 })
+
 
 app.listen(port)
 console.log('listening port is: '+ port)

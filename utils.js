@@ -66,6 +66,7 @@ exports.writeFileAsync = function(fpath, content){
 			if(err){
 				reject(err)
 			}else{
+        console.log('write to file success ComponentVerifyTicket is: '+content)
 				reslove()
 			}
 		})
