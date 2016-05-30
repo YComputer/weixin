@@ -46,7 +46,7 @@ module.exports = function(config) {
                   })
 
               })
-      var ComponentAccessToken = yield accessToken()
+      var ComponentAccessToken = yield accessToken
       console.log('component access token is: ',ComponentAccessToken)
 
 
