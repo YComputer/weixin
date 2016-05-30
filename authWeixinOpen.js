@@ -39,14 +39,14 @@ module.exports = function(config) {
       }
       var url = api.componentAccessToken
 
-      var accessToken =  new Promise(function(resolve, reject) {
+      var ComponentAccessToken = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body.component_access_token)
                   })
 
               })
-      var ComponentAccessToken = yield accessToken
+      //var ComponentAccessToken = yield accessToken
       console.log('component access token is: ',ComponentAccessToken)
 
 
