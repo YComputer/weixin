@@ -22,21 +22,36 @@ module.exports = function(config) {
 
       var componentAccessToken = yield utils.readFileAsync(component_access_token_file, 'utf-8')
       console.log('componentAccessToken is: ',componentAccessToken)
-
+      //----- 使用授权码换取公众号的接口调用凭据和授权信息 start
       var form = {
               component_appid: config.weixinOpenGongzhonghao.appID,
               authorization_code: this.query.auth_code
             }
       var url = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=' + componentAccessToken
-
       var body = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body)
                   })
               })
+      //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
+      //----- 获取公众号基本信息 start
+      var form2 = {
+              component_appid: config.weixinOpenGongzhonghao.appID,
+              authorizer_appid: body.authorization_info.authorizer_appid
+            }
+      var url2 = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=' + componentAccessToken
+      var body2 = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: url2, body: form2, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
 
-      this.body = body
+      https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=xxxx
+      // 获取公众号基本信息 end
+
+      this.body = body2
       return next
     }
     console.log('没有进入authWeixinOpen的callback！！！！')
