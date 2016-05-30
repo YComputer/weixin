@@ -49,47 +49,12 @@ module.exports = function(config) {
       console.log('pre auth code is: ', preAuthCode)
 
       var redirect = 'http://101.200.159.232/authWeixinOpenCallback'
-      var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
+      var htmlSource =  '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
       this.body = htmlSource
 
-
-
-      // request({method: 'POST',url: url, body: form, json: true},
-      //   function(error, response, body){
-      //     if (error) {
-      //       console.log(error)
-      //     }
-      //     console.log('componentAccessToken body ----------',body)
-      //     // request pre_auth_code
-      //     var form2 = {
-      //         component_appid: config.weixinOpenGongzhonghao.appID
-      //     }
-      //     var url2 = api.prePuthCode + 'component_access_token=' + body.component_access_token
-      //     request({method: 'POST',url: url2, body: form2, json: true},
-      //       function(error, response, body){
-      //         if (error) {
-      //           console.log(error)
-      //         }
-      //         console.log('preAuthCode body ----------', body.pre_auth_code)
-      //         // 和获取token一样，预授权码也有有效期，一般为1800秒，记得及时更新
-      //         var redirect = 'http://101.200.159.232/authWeixinOpenCallback'
-      //         var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
-      //         console.log('this.body is before',this.body)
-      //         console.log('htmlSource is ',htmlSource)
-      //
-      //         this.body = htmlSource
-      //         console.log('this.body is after',this.body)
-      //
-      //       })
-      //     //end
-      //   })
-
-        // reques api_component_token end
-        // this.body = 'hagahaha'
-
-        return next
+      return next
     }
-    console.log('进入－－－－－跟路由－－－－－')
+    console.log('进入－－－－－根路由－－－－－')
     yield next
   }
 
