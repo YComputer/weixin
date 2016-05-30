@@ -19,10 +19,9 @@ var tpl = heredoc(function() {/*
       </head>
       <body>
           <h1>公众号帐号基本信息<h1>
-          <div id="baseInfo">'<%= baseInfo %></div>
-
-          <div id="afterAuth"></div>
-
+          <div id="baseInfo">'<%= baseInfo %>'</div>
+          <h1>公众号关注者信息<h1>
+          <div id="followInfo">'<%= baseInfo %>'</div>
 
           <script src="http://zeptojs.com/zepto-docs.min.js"></script>
           <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
@@ -51,18 +50,18 @@ module.exports = function(config) {
               authorization_code: this.query.auth_code
             }
       var url = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=' + componentAccessToken
-      var body = yield new Promise(function(resolve, reject) {
+      var authInfo = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body)
                   })
               })
-      console.log('使用授权码换取公众号的接口调用凭据和授权信息', body)
+      console.log('使用授权码换取公众号的接口调用凭据和授权信息', authInfo)
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
       //----- 获取公众号基本信息 start
       var form2 = {
               component_appid: config.weixinOpenGongzhonghao.appID,
-              authorizer_appid: body.authorization_info.authorizer_appid
+              authorizer_appid: authInfo.authorization_info.authorizer_appid
             }
       var url2 = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=' + componentAccessToken
       var body2 = yield new Promise(function(resolve, reject) {
@@ -72,11 +71,22 @@ module.exports = function(config) {
                   })
               })
 
-      https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=xxxx
-      // 获取公众号基本信息 end
       params.baseInfo=JSON.stringify(body2)
+      // 获取公众号基本信息 end
+      //----- 获取公众号关注者信息 start
+      var url3 = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+authInfo.authorizer_access_token
+
+      var body3 = yield new Promise(function(resolve, reject) {
+                  request({method: 'GET',url: url3, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.followInfo=JSON.stringify(body3)
+      // 获取公众号关注者信息 end
+
+
       this.body = ejs.render(tpl, params)
-      //this.body = body2
       return next
     }
     console.log('没有进入authWeixinOpen的callback！！！！')
