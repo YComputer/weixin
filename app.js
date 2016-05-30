@@ -10,42 +10,10 @@ var path = require('path')
 var ejs = require('ejs')
 var heredoc = require('heredoc')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
-//var request = Promise.promisify(require('request'))
-var request = require('request')
 var authWeixinOpen = require('./authWeixinOpen')
 var callbackOfAuthWeixinOpen = require('./callbackOfAuthWeixinOpen')
 
-
-
-var app = new koa()
 var port = 80
-
-var tpl = heredoc(function() {/*
-  <!DOCTYPE html>
-  <html>
-      <head>
-          <title>准备授权</title>
-          <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
-      </head>
-      <body>
-          <h1>点击按钮授权<h1>
-          <p id="title"></p>
-          <div id="auth">
-          <a href="<%= authUrl %>">授权</a>
-          </div>
-          <div id="afterAuth"></div>
-          <script src="http://zeptojs.com/zepto-docs.min.js"></script>
-          <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
-          <script>
-          // ready
-
-          </script>
-      </body>
-  </html>
-
-  */})
-
-
 var config = {
   weixinOpenGongzhonghao:{
     appID: 'wxb6fa0468346e9059',
@@ -55,15 +23,7 @@ var config = {
   }
 }
 
-var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
-var api = {
-  componentAccessToken: prefix + 'api_component_token',
-  prePuthCode: prefix + 'api_create_preauthcode?',
-  authUrl: ''
-}
-
-
-
+var app = new koa()
 app.use(authWeixinOpen(config))
 app.use(callbackOfAuthWeixinOpen(config))
 
@@ -106,8 +66,7 @@ app.use(function* (next){
       utils.writeFileAsync(verify_ticket_file, verifyTicket.ComponentVerifyTicket)
 
     }
-
-    this.body = 'What is happen?'
+    this.body = 'What is happen?????'
   }else{
     console.log('request from other↓↓↓↓\n' +
         ' method is %s \n path is %s \n query is %s \n' +
@@ -118,7 +77,6 @@ app.use(function* (next){
   }
 
 })
-
 
 app.listen(port)
 console.log('listening port is: '+ port)

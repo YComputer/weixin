@@ -3,15 +3,38 @@
 var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
+var ejs = require('ejs')
+var heredoc = require('heredoc')
 var request = Promise.promisify(require('request'))
 // var request = require('request')
 var component_access_token_file = path.join(__dirname, './component_access_token.txt')
 
-// var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
-// var api = {
-//   componentAccessToken: prefix + 'api_component_token',
-//   prePuthCode: prefix + 'api_create_preauthcode?'
-// }
+var params = []
+var tpl = heredoc(function() {/*
+  <!DOCTYPE html>
+  <html>
+      <head>
+          <title>授权公众号的详细信息</title>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
+      </head>
+      <body>
+          <h1>公众号帐号基本信息<h1>
+          <div id="baseInfo">'<%= baseInfo %></div>
+
+          <div id="afterAuth"></div>
+
+
+          <script src="http://zeptojs.com/zepto-docs.min.js"></script>
+          <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+          <script>
+          // wait
+
+          </script>
+
+      </body>
+  </html>
+
+  */})
 
 
 module.exports = function(config) {
@@ -34,6 +57,7 @@ module.exports = function(config) {
                       resolve(body)
                   })
               })
+      console.log('使用授权码换取公众号的接口调用凭据和授权信息', body)
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
       //----- 获取公众号基本信息 start
       var form2 = {
@@ -50,8 +74,9 @@ module.exports = function(config) {
 
       https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=xxxx
       // 获取公众号基本信息 end
-
-      this.body = body2
+      params.push('baseInfo='+body2)
+      this.body = ejs.render(tpl, params)
+      //this.body = body2
       return next
     }
     console.log('没有进入authWeixinOpen的callback！！！！')
