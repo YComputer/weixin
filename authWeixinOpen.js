@@ -18,10 +18,10 @@ module.exports = function(config) {
 
   return function*(next) {
     if (this.url.indexOf('/authWeixinOpen') > -1) {
-
+      //------------------------
       var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
       console.log('read verify tcket is: ',componentVerifyTicket)
-
+      //------------------------
       var form = {
           component_appid: config.weixinOpenGongzhonghao.appID,
           component_appsecret: config.weixinOpenGongzhonghao.appSecret,
@@ -35,7 +35,7 @@ module.exports = function(config) {
                   })
               })
       console.log('component access token is: ', ComponentAccessToken)
-
+      //------------------------
       var form2 = {
               component_appid: config.weixinOpenGongzhonghao.appID
             }
@@ -47,7 +47,7 @@ module.exports = function(config) {
                   })
               })
       console.log('pre auth code is: ', preAuthCode)
-
+      //------------------------
       var redirect = 'http://101.200.159.232/authWeixinOpenCallback'
       var htmlSource =  '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
       this.body = htmlSource
