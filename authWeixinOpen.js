@@ -39,7 +39,7 @@ module.exports = function(config) {
 
       var url = api.componentAccessToken
       console.log(url)
-      console.log(JSON.stringify(form))
+      console.log('form is',JSON.stringify(form))
 
       request({method: 'POST',url: url, body: form, json: true},
         function(error, response, body){
