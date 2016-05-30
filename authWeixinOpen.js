@@ -48,6 +48,12 @@ module.exports = function(config) {
               })
       console.log('pre auth code is: ', preAuthCode)
 
+      var redirect = 'http://101.200.159.232/authWeixinOpenCallback'
+      var htmlSource =  '<a href=https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect+'">'+ '点击授权</a>'
+      this.body = htmlSource
+
+
+
       // request({method: 'POST',url: url, body: form, json: true},
       //   function(error, response, body){
       //     if (error) {
@@ -79,7 +85,7 @@ module.exports = function(config) {
       //   })
 
         // reques api_component_token end
-        this.body = 'hagahaha'
+        // this.body = 'hagahaha'
 
         return next
     }
