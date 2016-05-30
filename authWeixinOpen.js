@@ -6,6 +6,8 @@ var path = require('path')
 var request = Promise.promisify(require('request'))
 // var request = require('request')
 var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
+var component_access_token_file = path.join(__dirname, './component_access_token.txt')
+
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
@@ -28,18 +30,19 @@ module.exports = function(config) {
           component_verify_ticket: 'ticket@@@imcFBeYkTV3nL0ng4w5ExE2uh0T4WjyuhCZbyLf2z3nNMhtez45FDikCcZYED6hFQarmVef8IPo-X_hJWYIQ7Q'
       }
       var url = api.componentAccessToken
-      var ComponentAccessToken = yield new Promise(function(resolve, reject) {
+      var componentAccessToken = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url, body: form, json: true}).then(function(response) {
                       var body = response.body
                       resolve(body.component_access_token)
                   })
               })
-      console.log('component access token is: ', ComponentAccessToken)
+      utils.writeFileAsync(component_access_token_file, componentAccessToken)
+      console.log('component access token is: ', componentAccessToken)
       //------------------------
       var form2 = {
               component_appid: config.weixinOpenGongzhonghao.appID
             }
-      var url2 = api.prePuthCode + 'component_access_token=' + ComponentAccessToken
+      var url2 = api.prePuthCode + 'component_access_token=' + componentAccessToken
       var preAuthCode = yield new Promise(function(resolve, reject) {
                   request({method: 'POST',url: url2, body: form2, json: true}).then(function(response) {
                       var body = response.body
