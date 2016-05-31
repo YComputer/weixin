@@ -3,10 +3,14 @@
 var xml2js = require('xml2js')
 var Promise = require('bluebird')
 var fs = require('fs')
+var tpl = require('./tpl')
+
 
 exports.parseXMLAsync = function(xml) {
     return new Promise(function(resolve, reject) {
-        xml2js.parseString(xml, { trim: true }, function(err, content) {
+        xml2js.parseString(xml, {
+            trim: true
+        }, function(err, content) {
             if (err) {
                 console.log('xml data parse err', err)
                 reject(err)
@@ -47,28 +51,50 @@ function formatMessage(result) {
 }
 exports.formatMessage = formatMessage
 
-exports.readFileAsync = function(fpath, encoding){
-	return new Promise(function(reslove, reject){
-		fs.readFile(fpath, encoding, function(err, content){
-			if(err){
-				console.log('read token err---', err)
-				reject(err)
-			}else{
-				reslove(content)
-			}
-		})
-	})
+exports.readFileAsync = function(fpath, encoding) {
+    return new Promise(function(reslove, reject) {
+        fs.readFile(fpath, encoding, function(err, content) {
+            if (err) {
+                console.log('read token err---', err)
+                reject(err)
+            } else {
+                reslove(content)
+            }
+        })
+    })
 }
 
-exports.writeFileAsync = function(fpath, content){
-	return new Promise(function(reslove, reject){
-		fs.writeFile(fpath, content, function(err){
-			if(err){
-				reject(err)
-			}else{
-        console.log('write to file success ComponentVerifyTicket is: '+content)
-				reslove()
-			}
-		})
-	})
+exports.writeFileAsync = function(fpath, content) {
+    return new Promise(function(reslove, reject) {
+        fs.writeFile(fpath, content, function(err) {
+            if (err) {
+                reject(err)
+            } else {
+                console.log('write to file success ComponentVerifyTicket is: ' + content)
+                reslove()
+            }
+        })
+    })
+}
+
+exports.tpl = function(content, message) {
+
+    var info = {}
+    var type = 'text'
+    var fromUserName = message.FromUserName
+    var toUserName = message.ToUserName
+
+    if (Array.isArray(content)) {
+        type = 'news'
+    }
+
+    type = content.type || type
+    info.content = content
+    info.createTime = new Date().getTime()
+    info.msgType = type
+    info.toUserName = fromUserName
+    info.fromUserName = toUserName
+
+    return tpl.compiled(info)
+
 }
