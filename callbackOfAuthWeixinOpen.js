@@ -24,8 +24,16 @@ var tpl = heredoc(function() {/*
           <div id="followInfo">'<%= followInfo %>'</div>
           <h1>图文群发每日数据<h1>
           <div id="articleSummary">'<%= articleSummary %>'</div>
-
-
+          <h1>图文群发总数据<h1>
+          <div id="articletotal">'<%= articletotal %>'</div>
+          <h1>图文统计数据<h1>
+          <div id="userread">'<%= userread %>'</div>
+          <h1>图文统计分时数据<h1>
+          <div id="userreadhour">'<%= userreadhour %>'</div>
+          <h1>图文分享转发数据<h1>
+          <div id="usershare">'<%= usershare %>'</div>
+          <h1>图文分享转发分时数据<h1>
+          <div id="usersharehour">'<%= usersharehour %>'</div>
 
           <script src="http://zeptojs.com/zepto-docs.min.js"></script>
           <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
@@ -103,6 +111,81 @@ module.exports = function(config) {
               })
       params.articleSummary=JSON.stringify(articleSummary)
       // 获取图文群发每日数据 end
+
+      //----- 获取图文群发总数据 start
+      var getarticletotal = 'https://api.weixin.qq.com/datacube/getarticletotal?access_token='+authInfo.authorization_info.authorizer_access_token
+      var datBetween = {
+              begin_date: '2015-12-08',
+              end_date: '2015-12-08'
+            }
+      var articletotal = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: getarticletotal, body: datBetween, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.articletotal=JSON.stringify(articletotal)
+      // 获取图文群发总数据 end
+
+      //----- 获取图文统计数据 start
+      var getuserread = 'https://api.weixin.qq.com/datacube/getuserread?access_token='+authInfo.authorization_info.authorizer_access_token
+      var datBetween = {
+              begin_date: '2015-12-08',
+              end_date: '2015-12-08'
+            }
+      var userread = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: getuserread, body: datBetween, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.userread=JSON.stringify(userread)
+      // 获取图文统计数据 end
+
+      //----- 获取图文统计分时数据 start
+      var getuserreadhour = 'https://api.weixin.qq.com/datacube/getuserreadhour?access_token='+authInfo.authorization_info.authorizer_access_token
+      var datBetween = {
+              begin_date: '2015-12-08',
+              end_date: '2015-12-08'
+            }
+      var userreadhour = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: getuserreadhour, body: datBetween, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.userreadhour=JSON.stringify(userreadhour)
+      // 获取图文统计分时数据 end
+
+      //----- 获取图文分享转发数据 start
+      var getusershare = 'https://api.weixin.qq.com/datacube/getusershare?access_token='+authInfo.authorization_info.authorizer_access_token
+      var datBetween = {
+              begin_date: '2015-12-08',
+              end_date: '2015-12-08'
+            }
+      var usershare = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: getusershare, body: datBetween, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.usershare=JSON.stringify(usershare)
+      // 获取图文分享转发数据 end
+
+      //----- 获取图文分享转发分时数据 start
+      var getusersharehour = 'https://api.weixin.qq.com/datacube/getusersharehour?access_token='+authInfo.authorization_info.authorizer_access_token
+      var datBetween = {
+              begin_date: '2015-12-08',
+              end_date: '2015-12-08'
+            }
+      var usersharehour = yield new Promise(function(resolve, reject) {
+                  request({method: 'POST',url: getusersharehour, body: datBetween, json: true}).then(function(response) {
+                      var body = response.body
+                      resolve(body)
+                  })
+              })
+      params.usersharehour=JSON.stringify(usersharehour)
+      // 获取图文分享转发分时数据 end
 
 
       this.body = ejs.render(tpl, params)
