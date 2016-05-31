@@ -71,7 +71,7 @@ module.exports = function(config) {
                       resolve(body)
                   })
               })
-      utils.writeFileAsync(authorization_info_file, authInfo)
+      utils.writeFileAsync(authorization_info_file, JSON.stringify(authInfo))
       console.log('使用授权码换取公众号的接口调用凭据和授权信息\n', authInfo)
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
 
