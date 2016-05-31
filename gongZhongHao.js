@@ -64,7 +64,7 @@ var api = {
     }
 }
 
-function Wechat(config) {
+function GongZhongHao(config) {
     this.appID = config.appID
     this.appSecret = config.appSecret
     this.getAccessToken = config.getAccessToken
@@ -74,7 +74,7 @@ function Wechat(config) {
     this.fetchAccessToken()
 }
 
-Wechat.prototype.fetchAccessToken = function() {
+GongZhongHao.prototype.fetchAccessToken = function() {
     var that = this
     return this.getAccessToken()
         .then(function(data) {
@@ -96,7 +96,7 @@ Wechat.prototype.fetchAccessToken = function() {
         })
 }
 
-Wechat.prototype.isValidAccessToken = function(data) {
+GongZhongHao.prototype.isValidAccessToken = function(data) {
     if (!data || !data.access_token || !data.expires_in) {
         return false
     }
@@ -111,7 +111,7 @@ Wechat.prototype.isValidAccessToken = function(data) {
     }
 }
 
-Wechat.prototype.updateAccessToken = function() {
+GongZhongHao.prototype.updateAccessToken = function() {
     var appID = this.appID
     var appSecret = this.appSecret
     var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret
@@ -136,7 +136,7 @@ Wechat.prototype.updateAccessToken = function() {
     })
 }
 
-Wechat.prototype.fetchTicket = function(access_token) {
+GongZhongHao.prototype.fetchTicket = function(access_token) {
     var that = this
 
     return this.getTicket()
@@ -159,7 +159,7 @@ Wechat.prototype.fetchTicket = function(access_token) {
         })
 }
 
-Wechat.prototype.isValidTicket = function(data) {
+GongZhongHao.prototype.isValidTicket = function(data) {
     if (!data || !data.ticket || !data.expires_in) {
         return false
     }
@@ -175,7 +175,7 @@ Wechat.prototype.isValidTicket = function(data) {
     }
 }
 
-Wechat.prototype.updateTicket = function(access_token) {
+GongZhongHao.prototype.updateTicket = function(access_token) {
     var url = api.ticket.get + '&access_token=' + access_token + '&type=jsapi'
     return new Promise(function(resolve, reject) {
         request({
@@ -193,7 +193,7 @@ Wechat.prototype.updateTicket = function(access_token) {
     })
 }
 
-Wechat.prototype.talkToMachine = function(talk) {
+GongZhongHao.prototype.talkToMachine = function(talk) {
     var that = this
     return new Promise(function(resolve, reject) {
         //var url = api.machine.get + 'info=' + talk
@@ -229,7 +229,7 @@ Wechat.prototype.talkToMachine = function(talk) {
     })
 }
 
-Wechat.prototype.uploadMaterial = function(type, material, permanent) {
+GongZhongHao.prototype.uploadMaterial = function(type, material, permanent) {
     var that = this
     var form = {}
     var uploadUrl = api.temporary.upload
@@ -297,7 +297,7 @@ Wechat.prototype.uploadMaterial = function(type, material, permanent) {
     })
 }
 
-Wechat.prototype.fetchMaterial = function(mediaId, type, permanent) {
+GongZhongHao.prototype.fetchMaterial = function(mediaId, type, permanent) {
     var that = this
     var fetchUrl = api.temporary.fetch
 
@@ -348,7 +348,7 @@ Wechat.prototype.fetchMaterial = function(mediaId, type, permanent) {
     })
 }
 
-Wechat.prototype.deleteMaterial = function(mediaId) {
+GongZhongHao.prototype.deleteMaterial = function(mediaId) {
     var that = this
     var form = {
         media_id: mediaId
@@ -381,7 +381,7 @@ Wechat.prototype.deleteMaterial = function(mediaId) {
     })
 }
 
-Wechat.prototype.updateMaterial = function(mediaId, news) {
+GongZhongHao.prototype.updateMaterial = function(mediaId, news) {
     var that = this
     var form = {
         media_id: mediaId
@@ -416,7 +416,7 @@ Wechat.prototype.updateMaterial = function(mediaId, news) {
     })
 }
 
-Wechat.prototype.countMaterial = function() {
+GongZhongHao.prototype.countMaterial = function() {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -444,7 +444,7 @@ Wechat.prototype.countMaterial = function() {
     })
 }
 
-Wechat.prototype.batchMaterial = function(options) {
+GongZhongHao.prototype.batchMaterial = function(options) {
     var that = this
 
     options.type = options.type || 'image'
@@ -480,7 +480,7 @@ Wechat.prototype.batchMaterial = function(options) {
     })
 }
 
-Wechat.prototype.createTag = function(name) {
+GongZhongHao.prototype.createTag = function(name) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -514,7 +514,7 @@ Wechat.prototype.createTag = function(name) {
     })
 }
 
-Wechat.prototype.getTags = function() {
+GongZhongHao.prototype.getTags = function() {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -540,7 +540,7 @@ Wechat.prototype.getTags = function() {
     })
 }
 
-Wechat.prototype.getUserTags = function(userOpenid) {
+GongZhongHao.prototype.getUserTags = function(userOpenid) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -572,7 +572,7 @@ Wechat.prototype.getUserTags = function(userOpenid) {
     })
 }
 
-Wechat.prototype.updateTag = function(id, name) {
+GongZhongHao.prototype.updateTag = function(id, name) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -607,7 +607,7 @@ Wechat.prototype.updateTag = function(id, name) {
     })
 }
 
-Wechat.prototype.deleteTag = function(id) {
+GongZhongHao.prototype.deleteTag = function(id) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -641,7 +641,7 @@ Wechat.prototype.deleteTag = function(id) {
     })
 }
 
-Wechat.prototype.remarkUser = function(userOpenid, remark) {
+GongZhongHao.prototype.remarkUser = function(userOpenid, remark) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -674,7 +674,7 @@ Wechat.prototype.remarkUser = function(userOpenid, remark) {
     })
 }
 
-Wechat.prototype.getUsers = function(userOpenids, lang) {
+GongZhongHao.prototype.getUsers = function(userOpenids, lang) {
     var that = this
     lang = lang || 'zh_CN'
     return new Promise(function(resolve, reject) {
@@ -709,7 +709,7 @@ Wechat.prototype.getUsers = function(userOpenids, lang) {
     })
 }
 
-Wechat.prototype.listUsers = function(userOpenid) {
+GongZhongHao.prototype.listUsers = function(userOpenid) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -740,7 +740,7 @@ Wechat.prototype.listUsers = function(userOpenid) {
     })
 }
 
-Wechat.prototype.sendByTag = function(type, message, tagId) {
+GongZhongHao.prototype.sendByTag = function(type, message, tagId) {
     var that = this
     var msg = {
         filter: {},
@@ -783,7 +783,7 @@ Wechat.prototype.sendByTag = function(type, message, tagId) {
     })
 }
 
-Wechat.prototype.createMenu = function(menu) {
+GongZhongHao.prototype.createMenu = function(menu) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -811,7 +811,7 @@ Wechat.prototype.createMenu = function(menu) {
     })
 }
 
-Wechat.prototype.getMenu = function() {
+GongZhongHao.prototype.getMenu = function() {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -838,7 +838,7 @@ Wechat.prototype.getMenu = function() {
     })
 }
 
-Wechat.prototype.deleteMenu = function() {
+GongZhongHao.prototype.deleteMenu = function() {
     var that = this
     console.log('============', that)
     console.log('ready to deleteMenu', this.fetchAccessToken())
@@ -868,7 +868,7 @@ Wechat.prototype.deleteMenu = function() {
     })
 }
 
-Wechat.prototype.getCurrentMenu = function() {
+GongZhongHao.prototype.getCurrentMenu = function() {
     var that = this
     return new Promise(function(resolve, reject) {
         that.fetchAccessToken()
@@ -894,7 +894,7 @@ Wechat.prototype.getCurrentMenu = function() {
     })
 }
 
-Wechat.prototype.createQrcode = function(qr) {
+GongZhongHao.prototype.createQrcode = function(qr) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -922,11 +922,11 @@ Wechat.prototype.createQrcode = function(qr) {
     })
 }
 
-Wechat.prototype.showQrcode = function(ticket) {
+GongZhongHao.prototype.showQrcode = function(ticket) {
     return api.qrcode.show + 'ticket=' + encodeURI(ticket)
 }
 
-Wechat.prototype.createShorturl = function(action, url) {
+GongZhongHao.prototype.createShorturl = function(action, url) {
     action = action || 'long2short'
 
     var that = this
@@ -960,7 +960,7 @@ Wechat.prototype.createShorturl = function(action, url) {
     })
 }
 
-Wechat.prototype.semantic = function(semanticData) {
+GongZhongHao.prototype.semantic = function(semanticData) {
     var that = this
 
     return new Promise(function(resolve, reject) {
@@ -989,7 +989,7 @@ Wechat.prototype.semantic = function(semanticData) {
     })
 }
 
-Wechat.prototype.send = function() {
+GongZhongHao.prototype.send = function() {
     var content = this.body
     var message = this.weixin
     var xml = utils.tpl(content, message)
