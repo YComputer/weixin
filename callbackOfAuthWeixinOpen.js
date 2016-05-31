@@ -56,7 +56,7 @@ module.exports = function(config) {
                       resolve(body)
                   })
               })
-      console.log('使用授权码换取公众号的接口调用凭据和授权信息', authInfo)
+      console.log('使用授权码换取公众号的接口调用凭据和授权信息\n', authInfo)
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
       //----- 获取公众号基本信息 start
       var form2 = {
@@ -82,6 +82,7 @@ module.exports = function(config) {
                       resolve(body)
                   })
               })
+      console.log(url3)
       params.followInfo=JSON.stringify(body3)
       // 获取公众号关注者信息 end
 
