@@ -38,8 +38,9 @@ module.exports = function(config){
         // save verifyTicket
         utils.writeFileAsync(verify_ticket_file, verifyTicket.ComponentVerifyTicket)
 
+      }else{
+        this.body = 'What is happen?????'
       }
-      this.body = 'What is happen?????'
     }else{
       console.log('request from other↓↓↓↓\n' + ' method is %s \n path is %s \n query is %s \n' + 'request from other↑↑↑↑', this.method, this.url, JSON.stringify(this.query))
       this.body = '微信server以外的请求'

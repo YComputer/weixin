@@ -4,7 +4,7 @@
 var Promise = require('bluebird')
 var _ = require('lodash')
 var request = Promise.promisify(require('request'))
-var util = require('./util')
+var utils = require('./utils')
 var fs = require('fs')
 var urlencode = require('urlencode');
 var prefix = 'https://api.weixin.qq.com/cgi-bin/'
@@ -96,6 +96,46 @@ Wechat.prototype.fetchAccessToken = function() {
         })
 }
 
+Wechat.prototype.isValidAccessToken = function(data) {
+    if (!data || !data.access_token || !data.expires_in) {
+        return false
+    }
+    var access_token = data.access_token
+    var expires_in = data.expires_in
+    var now = (new Date().getTime())
+
+    if (now < expires_in) {
+        return true
+    } else {
+        return false
+    }
+}
+
+Wechat.prototype.updateAccessToken = function() {
+    var appID = this.appID
+    var appSecret = this.appSecret
+    var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret
+    console.log('tokenurl---', url)
+    return new Promise(function(resolve, reject) {
+        request({
+            url: url,
+            json: true
+        }).then(function(response) {
+            console.log('token-response', response.body)
+            var data = response.body
+            var now = (new Date().getTime())
+            console.log('now----', now)
+            var expires_in = now + (data.expires_in - 20) * 1000
+            console.log('data.expires_in----', data.expires_in)
+            console.log('expires_in----', expires_in)
+            data.expires_in = expires_in
+            resolve(data)
+
+        })
+
+    })
+}
+
 Wechat.prototype.fetchTicket = function(access_token) {
     var that = this
 
@@ -119,22 +159,6 @@ Wechat.prototype.fetchTicket = function(access_token) {
         })
 }
 
-Wechat.prototype.isValidAccessToken = function(data) {
-    if (!data || !data.access_token || !data.expires_in) {
-        return false
-    }
-
-    var access_token = data.access_token
-    var expires_in = data.expires_in
-    var now = (new Date().getTime())
-
-    if (now < expires_in) {
-        return true
-    } else {
-        return false
-    }
-}
-
 Wechat.prototype.isValidTicket = function(data) {
     if (!data || !data.ticket || !data.expires_in) {
         return false
@@ -153,7 +177,6 @@ Wechat.prototype.isValidTicket = function(data) {
 
 Wechat.prototype.updateTicket = function(access_token) {
     var url = api.ticket.get + '&access_token=' + access_token + '&type=jsapi'
-
     return new Promise(function(resolve, reject) {
         request({
             url: url,
@@ -162,33 +185,6 @@ Wechat.prototype.updateTicket = function(access_token) {
             var data = response.body
             var now = (new Date().getTime())
             var expires_in = now + (data.expires_in - 20) * 1000
-            data.expires_in = expires_in
-            resolve(data)
-
-        })
-
-    })
-}
-
-Wechat.prototype.updateAccessToken = function() {
-    var appID = this.appID
-    var appSecret = this.appSecret
-    var url = api.accessToken + '&appid=' + appID + '&secret=' + appSecret
-
-    console.log('tokenurl---', url)
-
-    return new Promise(function(resolve, reject) {
-        request({
-            url: url,
-            json: true
-        }).then(function(response) {
-            console.log('token-response', response.body)
-            var data = response.body
-            var now = (new Date().getTime())
-            console.log('now----', now)
-            var expires_in = now + (data.expires_in - 20) * 1000
-            console.log('data.expires_in----', data.expires_in)
-            console.log('expires_in----', expires_in)
             data.expires_in = expires_in
             resolve(data)
 
@@ -996,7 +992,7 @@ Wechat.prototype.semantic = function(semanticData) {
 Wechat.prototype.send = function() {
     var content = this.body
     var message = this.weixin
-    var xml = util.tpl(content, message)
+    var xml = utils.tpl(content, message)
 
     this.status = 200
     this.type = 'application/xml'
