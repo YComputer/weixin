@@ -10,7 +10,7 @@ var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
 module.exports = function(config){
   return function* (next){
     console.log(this.query)
-    var token = config.weixinOpenGongzhonghao.token
+    var token = config.token
     var signature = this.query.signature
     var nonce = this.query.nonce
     var timestamp = this.query.timestamp
@@ -30,7 +30,7 @@ module.exports = function(config){
         var message = utils.formatMessage(content.xml)
         console.log('json object to plain json object\n', message)
 
-        var xmlVerifyTicket = new WxCrypto(config.weixinOpenGongzhonghao.token, config.weixinOpenGongzhonghao.appID, config.weixinOpenGongzhonghao.key).decrypt(message.Encrypt)
+        var xmlVerifyTicket = new WxCrypto(config.token, config.appID, config.key).decrypt(message.Encrypt)
         var rawVerifyTicket = yield utils.parseXMLAsync(xmlVerifyTicket)
         var verifyTicket = utils.formatMessage(rawVerifyTicket.xml)
         console.log('componentVerifyTicket is: ', JSON.stringify(verifyTicket))
