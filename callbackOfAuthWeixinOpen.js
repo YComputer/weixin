@@ -7,8 +7,8 @@ var ejs = require('ejs')
 var heredoc = require('heredoc')
 var request = Promise.promisify(require('request'))
 // var request = require('request')
-var component_access_token_file = path.join(__dirname, './component_access_token.txt')
-var authorization_info_file = path.join(__dirname, './authorization_info.txt')
+var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
+var authorization_info_file = path.join(__dirname, './config/authorization_info.txt')
 
 
 var params = {}

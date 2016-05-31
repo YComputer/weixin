@@ -2,8 +2,10 @@
 
 var sha1 = require('sha1')
 var utils = require('./utils')
+var path = require('path')
 var WxCrypto = require('./wxCrypto')
 var getRawBody = require('raw-body')
+var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
 
 module.exports = function(config){
   return function* (next){

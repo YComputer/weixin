@@ -5,8 +5,8 @@ var utils = require('./utils')
 var path = require('path')
 var request = Promise.promisify(require('request'))
     // var request = require('request')
-var verify_ticket_file = path.join(__dirname, './verify_ticket.txt')
-var component_access_token_file = path.join(__dirname, './component_access_token.txt')
+var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
+var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
 
 
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
