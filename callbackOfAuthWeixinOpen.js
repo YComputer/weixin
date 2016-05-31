@@ -74,7 +74,7 @@ module.exports = function(config) {
       params.baseInfo=JSON.stringify(body2)
       // 获取公众号基本信息 end
       //----- 获取公众号关注者信息 start
-      var url3 = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+authInfo.authorizer_access_token
+      var url3 = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+authInfo.authorization_info.authorizer_access_token
 
       var body3 = yield new Promise(function(resolve, reject) {
                   request({method: 'GET',url: url3, json: true}).then(function(response) {
