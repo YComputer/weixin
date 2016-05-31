@@ -31,10 +31,10 @@ module.exports = function(config, replyHandler) {
                 })
                 console.log('raw data post from weixin server\n', data.toString())
 
-                var content = yield util.parseXMLAsync(data)
+                var content = yield utils.parseXMLAsync(data)
                 console.log('raw data to json object\n', content)
 
-                var message = util.formatMessage(content.xml)
+                var message = utils.formatMessage(content.xml)
                 console.log('json object to plain json object\n', message)
 
                 // 将解析后的数据添加到当前引用的属性weixin中
