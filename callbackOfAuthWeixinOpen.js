@@ -8,6 +8,8 @@ var heredoc = require('heredoc')
 var request = Promise.promisify(require('request'))
 // var request = require('request')
 var component_access_token_file = path.join(__dirname, './component_access_token.txt')
+var authorization_info_file = path.join(__dirname, './authorization_info.txt')
+
 
 var params = {}
 var tpl = heredoc(function() {/*
@@ -56,6 +58,7 @@ module.exports = function(config) {
 
       var componentAccessToken = yield utils.readFileAsync(component_access_token_file, 'utf-8')
       console.log('componentAccessToken is: ',componentAccessToken)
+
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 start
       var formAuthInfo = {
               component_appid: config.weixinOpenGongzhonghao.appID,
@@ -68,10 +71,11 @@ module.exports = function(config) {
                       resolve(body)
                   })
               })
+      utils.writeFileAsync(authorization_info_file, authInfo)
       console.log('使用授权码换取公众号的接口调用凭据和授权信息\n', authInfo)
       //----- 使用授权码换取公众号的接口调用凭据和授权信息 end
+
       //----- 获取公众号基本信息 start
-      // 存储已经授权过的公众号
       var formBaseInfo = {
               component_appid: config.weixinOpenGongzhonghao.appID,
               authorizer_appid: authInfo.authorization_info.authorizer_appid
@@ -86,6 +90,7 @@ module.exports = function(config) {
 
       params.baseInfo=JSON.stringify(baseInfo)
       // 获取公众号基本信息 end
+
       //----- 获取公众号关注者信息 start
       var urlFllowInfo = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+authInfo.authorization_info.authorizer_access_token
 
@@ -97,6 +102,7 @@ module.exports = function(config) {
               })
       params.followInfo=JSON.stringify(fllowInfo)
       // 获取公众号关注者信息 end
+
       //----- 获取图文群发每日数据 start
       var getArticleSummary = 'https://api.weixin.qq.com/datacube/getarticlesummary?access_token='+authInfo.authorization_info.authorizer_access_token
       var datBetween = {
@@ -186,7 +192,6 @@ module.exports = function(config) {
               })
       params.usersharehour=JSON.stringify(usersharehour)
       // 获取图文分享转发分时数据 end
-
 
       this.body = ejs.render(tpl, params)
       return next
