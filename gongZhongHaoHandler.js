@@ -75,9 +75,12 @@ exports.reply = function*(next) {
     } else if (message.MsgType === 'text') {
         var content = message.Content
         var reply = '你说的 ' + message.Content + ' 太复杂了'
-
+        console.log('机器人对话之前－－－－－－－－－－')
         // tolk to machine
         reply = yield gongZhongHaoApi.talkToMachine(content)
+
+        console.log('机器人对话之后的reply－－－－－－－－－－', reply)
+
 
         if (content === '1') {
             reply = '你的订单正在处理中'
