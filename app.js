@@ -1,6 +1,7 @@
 'use strict'
 
 var koa = require('koa')
+var route = require('koa-route')
 var Promise = require('bluebird')
 var sha1 = require('sha1')
 var getRawBody = require('raw-body')
@@ -24,8 +25,11 @@ var config = {
 }
 
 var app = new koa()
-app.use(authWeixinOpen(config))
-app.use(callbackOfAuthWeixinOpen(config))
+app.use(route.get('/authWeixinOpen', authWeixinOpen(config)))
+app.use(route.get('/callbackOfAuthWeixinOpen', callbackOfAuthWeixinOpen(config)))
+
+// app.use(authWeixinOpen(config))
+// app.use(callbackOfAuthWeixinOpen(config))
 
 app.use(function* (next){
   console.log(this.query)

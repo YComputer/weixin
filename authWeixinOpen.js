@@ -19,7 +19,7 @@ var api = {
 module.exports = function(config) {
 
   return function*(next) {
-    if (this.url.indexOf('/authWeixinOpen') > -1) {
+    // if (this.url.indexOf('/authWeixinOpen') > -1) {
       //------------------------
       var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
       console.log('read verify tcket is: ',componentVerifyTicket)
@@ -56,7 +56,7 @@ module.exports = function(config) {
       this.body = htmlSource
 
       return next
-    }
+    // }
     console.log('进入－－－－－根路由－－－－－')
     yield next
   }

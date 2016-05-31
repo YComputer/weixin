@@ -54,7 +54,7 @@ module.exports = function(config) {
 
   return function*(next) {
     console.log('url is ----- ',this.url)
-    if (this.url.indexOf('/callbackOfAuthWeixinOpen') > -1) {
+    // if (this.url.indexOf('/callbackOfAuthWeixinOpen') > -1) {
 
       var componentAccessToken = yield utils.readFileAsync(component_access_token_file, 'utf-8')
       console.log('componentAccessToken is: ',componentAccessToken)
@@ -195,7 +195,7 @@ module.exports = function(config) {
 
       this.body = ejs.render(tpl, params)
       return next
-    }
+    // }
     console.log('没有进入authWeixinOpen的callback！！！！')
     yield next
   }
