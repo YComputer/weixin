@@ -3,6 +3,7 @@
 var sha1 = require('sha1')
 var utils = require('./utils')
 var WxCrypto = require('./wxCrypto')
+var getRawBody = require('raw-body')
 
 module.exports = function(config){
   return function* (next){
@@ -18,18 +19,10 @@ module.exports = function(config){
 
     if(sha1Str === signature){
       if(this.method === 'GET'){
-        console.log('request from weixin server↓↓↓↓\n' +
-            ' method is %s \n path is %s \n query is %s \n' +
-            'request from weixin server↑↑↑↑',
-            this.method, this.url, JSON.stringify(this.query))
+        console.log('request from weixin server↓↓↓↓\n' + ' method is %s \n path is %s \n query is %s \n' + 'request from weixin server↑↑↑↑', this.method, this.url, JSON.stringify(this.query))
       }else if(this.method === 'POST'){
         var data = yield getRawBody(this.req, { length: this.length, limit: '1mb', encoding: this.charset })
-
-        console.log('request from weixin server↓↓↓↓\n' +
-            ' method is %s \n path is %s \n data is %s \n' +
-            'request from weixin server↑↑↑↑',
-            this.method, this.url, data.toString())
-
+        console.log('request from weixin server↓↓↓↓\n' + ' method is %s \n path is %s \n data is %s \n' + 'request from weixin server↑↑↑↑', this.method, this.url, data.toString())
         var content = yield utils.parseXMLAsync(data)
         console.log('raw data to json object\n', content)
         var message = utils.formatMessage(content.xml)
@@ -46,11 +39,7 @@ module.exports = function(config){
       }
       this.body = 'What is happen?????'
     }else{
-      console.log('request from other↓↓↓↓\n' +
-          ' method is %s \n path is %s \n query is %s \n' +
-          'request from other↑↑↑↑',
-          this.method, this.url, JSON.stringify(this.query))
-
+      console.log('request from other↓↓↓↓\n' + ' method is %s \n path is %s \n query is %s \n' + 'request from other↑↑↑↑', this.method, this.url, JSON.stringify(this.query))
       this.body = '微信server以外的请求'
     }
 
