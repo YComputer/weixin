@@ -209,7 +209,7 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
             var form = {
                 component_appid: config.weixinOpenGongzhonghao.appID,
                 component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-                component_verify_ticket: componentVerifyTicket
+                component_verify_ticket: content
             }
             var url = api.weixinOpenGongzhonghao.componentAccessToken
             request({
