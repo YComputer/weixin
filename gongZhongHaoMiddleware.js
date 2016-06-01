@@ -9,10 +9,8 @@ var utils = require('./utils')
 module.exports = function(config, replyHandler) {
     var gongZhongHao = new GongZhongHao(config)
     return function*(next) {
-      console.log('enter gongzhonghaomiddleware------------')
         var token = config.token
         var signature = this.query.signature
-      console.log('signature---',signature)
         var nonce = this.query.nonce
         var timestamp = this.query.timestamp
         var echostr = this.query.echostr
