@@ -231,13 +231,24 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
                     body: form2,
                     json: true
                 }).then(function(response) {
-                    var body = response.body
-                        //resolve(body.pre_auth_code)
-                    console.log('pre auth code is: ', body.pre_auth_code)
-                    var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
-                    //var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
-                    var htmlSource = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&'+'pre_auth_code=' + body.pre_auth_code + '&'+'redirect_uri=' + redirect
-                    resolve(htmlSource)
+                    var pre_auth_code = response.body.pre_auth_code
+                    console.log('pre auth code is: ', pre_auth_code)
+                    request({
+                        method: 'POST',
+                        url: 'https://mp.weixin.qq.com/safe/safeqrconnect',
+                        body: 'token=&lang=zh_CN&f=json&ajax=1&random=0.10089162332890789&action=bindcomponent&appid=wx3a432d2dbe2442ce&scope=snsapi_contact&state=0&redirect_uri=https%3A%2F%2Fmp.weixin.qq.com&component_appid=wxb6fa0468346e9059&component_pre_auth_code=preauthcode@@@vpPmma2N5o-7uuLfDCW0kG3b5ASw7tT7POdW6AdFKO068B9KI9PV3oOoEk7QHgBn&component_redirect_uri=http%253A%252F%252F101.200.159.232%252FcallbackOfAuthWeixinOpen',
+                        json: true
+                    }).then(function(response) {
+                        var result = response.body
+                        resolve('<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + result.uuid + '></img>')
+                    }).error(function(err) {
+                        reject(err)
+                    })
+
+                    // var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
+                    // var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
+                    // var htmlSource = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&'+'pre_auth_code=' + body.pre_auth_code + '&'+'redirect_uri=' + redirect
+                    // resolve(htmlSource)
                 }).catch(function(err) {
                     reject(err)
                 })
