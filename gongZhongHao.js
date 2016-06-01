@@ -233,10 +233,14 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
                 }).then(function(response) {
                     var pre_auth_code = response.body.pre_auth_code
                     console.log('pre auth code is: ', pre_auth_code)
+                    // 生成二维码请求url
+                    var body = 'token=&lang=zh_CN&f=json&ajax=1'+'&random='+Math.random()+'&action=bindcomponent&appid=wx3a432d2dbe2442ce&scope=snsapi_contact&state=0&redirect_uri=https%3A%2F%2Fmp.weixin.qq.com&component_appid=wxb6fa0468346e9059'
+                              + '&component_pre_auth_code='+ pre_auth_code +'&component_redirect_uri=http%253A%252F%252F101.200.159.232%252FcallbackOfAuthWeixinOpen'
                     request({
                         method: 'POST',
                         url: 'https://mp.weixin.qq.com/safe/safeqrconnect',
-                        body: 'token=&lang=zh_CN&f=json&ajax=1&random=0.10089162332890789&action=bindcomponent&appid=wx3a432d2dbe2442ce&scope=snsapi_contact&state=0&redirect_uri=https%3A%2F%2Fmp.weixin.qq.com&component_appid=wxb6fa0468346e9059&component_pre_auth_code=preauthcode@@@vpPmma2N5o-7uuLfDCW0kG3b5ASw7tT7POdW6AdFKO068B9KI9PV3oOoEk7QHgBn&component_redirect_uri=http%253A%252F%252F101.200.159.232%252FcallbackOfAuthWeixinOpen',
+                        // body: 'token=&lang=zh_CN&f=json&ajax=1&random=0.10089162332890789&action=bindcomponent&appid=wx3a432d2dbe2442ce&scope=snsapi_contact&state=0&redirect_uri=https%3A%2F%2Fmp.weixin.qq.com&component_appid=wxb6fa0468346e9059&component_pre_auth_code=preauthcode@@@vpPmma2N5o-7uuLfDCW0kG3b5ASw7tT7POdW6AdFKO068B9KI9PV3oOoEk7QHgBn&component_redirect_uri=http%253A%252F%252F101.200.159.232%252FcallbackOfAuthWeixinOpen',
+                        body: body,
                         json: true
                     }).then(function(response) {
                         var result = response.body
