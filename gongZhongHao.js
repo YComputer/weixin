@@ -235,7 +235,8 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
                         //resolve(body.pre_auth_code)
                     console.log('pre auth code is: ', body.pre_auth_code)
                     var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
-                    var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
+                    //var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
+                    var htmlSource = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect
                     resolve(htmlSource)
                 }).catch(function(err) {
                     reject(err)
