@@ -41,6 +41,7 @@ exports.reply = function*(next) {
             var authLink = yield gongZhongHaoApi.authWeixinOpen(config)
 
             //this.body = '请点击授权：' + message.EventKey
+            console.log('htmlSource recevied is ', authLink)
             this.body = '请点击授权：' + authLink
 
         } else if (message.Event === 'SCAN') {
