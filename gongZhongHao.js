@@ -1052,6 +1052,8 @@ GongZhongHao.prototype.send = function() {
 
     var xml = utils.tpl(content, message)
 
+    console.log('after compiled content--------',xml)
+
     this.status = 200
     this.type = 'application/xml'
     this.body = xml
