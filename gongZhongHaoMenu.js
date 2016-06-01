@@ -2,7 +2,7 @@
 
 module.exports = {
     'button': [{
-        'name': '点击事件',
+        'name': '点击授权',
         'type': 'click',
         'key': 'menu_click'
     }, {

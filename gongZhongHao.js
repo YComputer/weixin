@@ -7,10 +7,19 @@ var request = Promise.promisify(require('request'))
 var utils = require('./utils')
 var fs = require('fs')
 var urlencode = require('urlencode');
+var path = require('path')
+var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
+var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
+
 var prefix = 'https://api.weixin.qq.com/cgi-bin/'
+var weixinOpenPrefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var mpPrefix = 'https://mp.weixin.qq.com/cgi-bin/'
 var semanticUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?'
 var api = {
+    weixinOpenGongzhonghao:{
+      componentAccessToken: weixinOpenPrefix + 'api_component_token',
+      prePuthCode: weixinOpenPrefix + 'api_create_preauthcode?'
+    },
     accessToken: prefix + 'token?grant_type=client_credential',
     temporary: {
         upload: prefix + 'media/upload?',
@@ -192,6 +201,58 @@ GongZhongHao.prototype.updateTicket = function(access_token) {
 
     })
 }
+
+GongZhongHao.prototype.authWeixinOpen = function(config) {
+
+    return new Promise(function(resolve, reject) {
+        var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
+        console.log('read verify tcket is: ', componentVerifyTicket)
+            //------------------------
+        var form = {
+            component_appid: config.weixinOpenGongzhonghao.appID,
+            component_appsecret: config.weixinOpenGongzhonghao.appSecret,
+            component_verify_ticket: componentVerifyTicket
+        }
+        var url = api.weixinOpenGongzhonghao.componentAccessToken
+        var componentAccessToken = yield new Promise(function(resolve, reject) {
+            request({
+                method: 'POST',
+                url: url,
+                body: form,
+                json: true
+            }).then(function(response) {
+                var body = response.body
+                resolve(body.component_access_token)
+            })
+        })
+        utils.writeFileAsync(component_access_token_file, componentAccessToken)
+        console.log('component access token is: ', componentAccessToken)
+            //------------------------
+        var form2 = {
+            component_appid: config.weixinOpenGongzhonghao.appID
+        }
+        var url2 = api.weixinOpenGongzhonghao.prePuthCode + 'component_access_token=' + componentAccessToken
+        var preAuthCode = yield new Promise(function(resolve, reject) {
+            request({
+                method: 'POST',
+                url: url2,
+                body: form2,
+                json: true
+            }).then(function(response) {
+                var body = response.body
+                resolve(body.pre_auth_code)
+            }).catch(function(err) {
+                reject(err)
+            })
+        })
+        console.log('pre auth code is: ', preAuthCode)
+        var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
+        var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
+        resolve(htmlSource)
+
+    })
+}
+
 
 GongZhongHao.prototype.talkToMachine = function(talk) {
     var that = this
@@ -992,8 +1053,8 @@ GongZhongHao.prototype.semantic = function(semanticData) {
 GongZhongHao.prototype.send = function() {
     var content = this.body
     var message = this.weixin
-    console.log('send-------content',content)
-    console.log('send-------message',message)
+    console.log('send-------content', content)
+    console.log('send-------message', message)
 
     var xml = utils.tpl(content, message)
 

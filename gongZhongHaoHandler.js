@@ -37,7 +37,12 @@ exports.reply = function*(next) {
         } else if (message.Event === 'LOCATION') {
             this.body = '你上报的位置是：' + message.Latitude + '/' + message.Longitude + '-' + message.Precision
         } else if (message.Event === 'CLICK') {
-            this.body = '你点击了菜单：' + message.EventKey
+            //点击后要做的事情，去请求微信开放平台认证，生成授权按钮。
+            var authLink = yield gongZhongHaoApi.authWeixinOpen(config)
+
+            //this.body = '请点击授权：' + message.EventKey
+            this.body = '请点击授权：' + authLink
+
         } else if (message.Event === 'SCAN') {
             console.log('关注后扫描二维码' + message.EventKey + ' ' + message.Ticket)
             this.body = '确认你已经扫描了二维码'
@@ -132,7 +137,9 @@ exports.reply = function*(next) {
             }
             console.log(reply)
         } else if (content === '8') {
-            var data = yield gongZhongHaoApi.uploadMaterial('image', path.join(__dirname, '../2.png'), { type: 'image' })
+            var data = yield gongZhongHaoApi.uploadMaterial('image', path.join(__dirname, '../2.png'), {
+                type: 'image'
+            })
             console.log('data---', data)
             reply = {
                 type: 'image',
@@ -140,7 +147,10 @@ exports.reply = function*(next) {
             }
             console.log(reply)
         } else if (content === '9') {
-            var data = yield gongZhongHaoApi.uploadMaterial('video', path.join(__dirname, '../video.mp4'), { type: 'video', description: '{"title":"nice place","introduction":"just do it"}' })
+            var data = yield gongZhongHaoApi.uploadMaterial('video', path.join(__dirname, '../video.mp4'), {
+                type: 'video',
+                description: '{"title":"nice place","introduction":"just do it"}'
+            })
             console.log('data---', data)
             reply = {
                 type: 'video',
@@ -272,27 +282,27 @@ exports.reply = function*(next) {
         } else if (content === '18') {
             var tempQr = {
                 expire_seconds: 40000,
-                action_name:'QR_SCENE',
+                action_name: 'QR_SCENE',
                 action_info: {
-                    scene:{
-                        scene_id:123
+                    scene: {
+                        scene_id: 123
                     }
                 }
             }
 
             var permQr = {
-                action_name:'QR_LIMIT_SCENE',
+                action_name: 'QR_LIMIT_SCENE',
                 action_info: {
-                    scene:{
-                        scene_id:123
+                    scene: {
+                        scene_id: 123
                     }
                 }
             }
 
             var permStrQr = {
-                action_name:'QR_LIMIT_STR_SCENE',
+                action_name: 'QR_LIMIT_STR_SCENE',
                 action_info: {
-                    scene:{
+                    scene: {
                         scene_id: 'abc'
                     }
                 }
@@ -302,11 +312,11 @@ exports.reply = function*(next) {
             var qr2 = yield gongZhongHaoApi.createQrcode(permQr)
             var qr3 = yield gongZhongHaoApi.createQrcode(permStrQr)
 
-        }else if (content === '19') {
+        } else if (content === '19') {
             var longUrl = 'http://www.fooads.com'
             var shortData = yield gongZhongHaoApi.createShorturl(null, longUrl)
             reply = shortData.short_url
-        }else if (content === '20') {
+        } else if (content === '20') {
             var semanticData = {
                 query: 'xxx',
                 city: 'xxx',
