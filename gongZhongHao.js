@@ -1,6 +1,5 @@
 'use strict'
 
-
 var Promise = require('bluebird')
 var _ = require('lodash')
 var request = Promise.promisify(require('request'))
@@ -16,9 +15,9 @@ var weixinOpenPrefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var mpPrefix = 'https://mp.weixin.qq.com/cgi-bin/'
 var semanticUrl = 'https://api.weixin.qq.com/semantic/semproxy/search?'
 var api = {
-    weixinOpenGongzhonghao:{
-      componentAccessToken: weixinOpenPrefix + 'api_component_token',
-      prePuthCode: weixinOpenPrefix + 'api_create_preauthcode?'
+    weixinOpenGongzhonghao: {
+        componentAccessToken: weixinOpenPrefix + 'api_component_token',
+        prePuthCode: weixinOpenPrefix + 'api_create_preauthcode?'
     },
     accessToken: prefix + 'token?grant_type=client_credential',
     temporary: {
@@ -205,16 +204,14 @@ GongZhongHao.prototype.updateTicket = function(access_token) {
 GongZhongHao.prototype.authWeixinOpen = function(config) {
 
     return new Promise(function(resolve, reject) {
-        var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
-        console.log('read verify tcket is: ', componentVerifyTicket)
-            //------------------------
-        var form = {
-            component_appid: config.weixinOpenGongzhonghao.appID,
-            component_appsecret: config.weixinOpenGongzhonghao.appSecret,
-            component_verify_ticket: componentVerifyTicket
-        }
-        var url = api.weixinOpenGongzhonghao.componentAccessToken
-        var componentAccessToken = yield new Promise(function(resolve, reject) {
+        utils.readFileAsync(verify_ticket_file, 'utf-8').then(function(content) {
+            console.log('read verify tcket is: ', content)
+            var form = {
+                component_appid: config.weixinOpenGongzhonghao.appID,
+                component_appsecret: config.weixinOpenGongzhonghao.appSecret,
+                component_verify_ticket: componentVerifyTicket
+            }
+            var url = api.weixinOpenGongzhonghao.componentAccessToken
             request({
                 method: 'POST',
                 url: url,
@@ -222,33 +219,29 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
                 json: true
             }).then(function(response) {
                 var body = response.body
-                resolve(body.component_access_token)
+                utils.writeFileAsync(component_access_token_file, body.component_access_token)
+                console.log('component access token is: ', body.component_access_token)
+                var form2 = {
+                    component_appid: config.weixinOpenGongzhonghao.appID
+                }
+                var url2 = api.weixinOpenGongzhonghao.prePuthCode + 'component_access_token=' + body.component_access_token
+                request({
+                    method: 'POST',
+                    url: url2,
+                    body: form2,
+                    json: true
+                }).then(function(response) {
+                    var body = response.body
+                        //resolve(body.pre_auth_code)
+                    console.log('pre auth code is: ', body.pre_auth_code)
+                    var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
+                    var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + body.pre_auth_code + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
+                    resolve(htmlSource)
+                }).catch(function(err) {
+                    reject(err)
+                })
             })
         })
-        utils.writeFileAsync(component_access_token_file, componentAccessToken)
-        console.log('component access token is: ', componentAccessToken)
-            //------------------------
-        var form2 = {
-            component_appid: config.weixinOpenGongzhonghao.appID
-        }
-        var url2 = api.weixinOpenGongzhonghao.prePuthCode + 'component_access_token=' + componentAccessToken
-        var preAuthCode = yield new Promise(function(resolve, reject) {
-            request({
-                method: 'POST',
-                url: url2,
-                body: form2,
-                json: true
-            }).then(function(response) {
-                var body = response.body
-                resolve(body.pre_auth_code)
-            }).catch(function(err) {
-                reject(err)
-            })
-        })
-        console.log('pre auth code is: ', preAuthCode)
-        var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
-        var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
-        resolve(htmlSource)
 
     })
 }
