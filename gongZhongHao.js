@@ -1071,7 +1071,19 @@ GongZhongHao.prototype.send = function() {
 
     this.status = 200
     this.type = 'application/xml'
-    this.body = xml
+
+    var text =
+    '<xml>'+
+        '<ToUserName><![CDATA[ojwNnwywAH5IIDydgK1chWbFkpLI]]></ToUserName>'+
+        '<FromUserName><![CDATA[gh_9ecf92e38722]]></FromUserName>'+
+        '<CreateTime></CreateTime>'+
+        '<MsgType><![CDATA[text]]></MsgType>'+
+        	'<Content><![CDATA[请点击授权：<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=011nkkGy-kvIltRn></img>]]></Content>'+
+    '</xml>'
+
+
+
+    this.body = text
 }
 
 module.exports = GongZhongHao
