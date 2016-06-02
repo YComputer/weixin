@@ -1062,12 +1062,8 @@ GongZhongHao.prototype.semantic = function(semanticData) {
 GongZhongHao.prototype.send = function() {
     var content = this.body
     var message = this.weixin
-    console.log('send-------content', content)
-    console.log('send-------message', message)
 
     var xml = utils.tpl(content, message)
-
-    console.log('after compiled content--------',xml)
 
     this.status = 200
     this.type = 'application/xml'
@@ -1081,7 +1077,19 @@ GongZhongHao.prototype.send = function() {
     //     	'<Content><![CDATA[请点击授权：<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=011nkkGy-kvIltRn></img>]]></Content>'+
     // '</xml>'
 
-    this.body = xml
+    // 链接消息
+    var linkMessage =
+    '<xml>'+
+    '<ToUserName><![CDATA[ojwNnwywAH5IIDydgK1chWbFkpLI]]></ToUserName>'+
+    '<FromUserName><![CDATA[gh_9ecf92e38722]]></FromUserName>'+
+    '<CreateTime></CreateTime>'+
+    '<MsgType><![CDATA[link]]></MsgType>'+
+    '<Title><![CDATA[这个是链接]]></Title>'+
+    '<Description><![CDATA[这个是链接描述]]></Description>'+
+    '<Url><![CDATA[http://www.baidu.com]]></Url>'+
+    '</xml>'
+
+    this.body = linkMessage
 }
 
 module.exports = GongZhongHao
