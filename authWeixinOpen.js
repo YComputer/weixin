@@ -22,8 +22,10 @@ var api = {
 module.exports = function(config) {
     return function*(next) {
         console.log('headers----',this.request.headers)
-        var qrCode = yield gongZhongHaoApi.authWeixinOpen(config)
-        params.qrCode = qrCode
+        var uuid = yield gongZhongHaoApi.authWeixinOpen(config)
+        var imgUrl = 'https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + uuid
+        params.qrCode = imgUrl
+        params.uuid = uuid
         this.body = ejs.render(tpl, params)
 
         // var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
