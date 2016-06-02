@@ -45,7 +45,7 @@ var tpl = heredoc(function() {
 
                           }
                       })
-                  }, 500);
+                  }, 5000);
                 }
 
 
