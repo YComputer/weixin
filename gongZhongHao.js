@@ -243,8 +243,9 @@ GongZhongHao.prototype.authWeixinOpen = function(config) {
                         body: body,
                         json: true
                     }).then(function(response) {
-                        var result = response.body
-                        resolve('<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + result.uuid + '></img>')
+                        var imgUrl = 'https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + response.body.uuid
+                        //resolve('<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + response.body.uuid + '></img>')
+                        resolve(imgUrl)
                     }).error(function(err) {
                         reject(err)
                     })

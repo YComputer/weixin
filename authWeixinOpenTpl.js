@@ -10,7 +10,10 @@ var tpl = heredoc(function() {
             </head>
             <body>
                 <h1>长按二维码认证<h1>
-                <div id="qrCode"><%= qrCode %></div>
+                <div id="qrCode">
+                <img src="<%= qrCode %>" />
+                </div>
+
 
                 <script src="http://zeptojs.com/zepto-docs.min.js"></script>
                 <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
