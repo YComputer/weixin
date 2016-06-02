@@ -80,7 +80,7 @@ exports.writeFileAsync = function(fpath, content) {
 exports.tpl = function(content, message) {
 
     var info = {}
-    var type = 'text'
+    var type = 'link'
     var fromUserName = message.FromUserName
     var toUserName = message.ToUserName
 

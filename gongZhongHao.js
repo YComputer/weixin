@@ -1073,8 +1073,10 @@ GongZhongHao.prototype.send = function() {
         '<ToUserName><![CDATA[ojwNnwywAH5IIDydgK1chWbFkpLI]]></ToUserName>'+
         '<FromUserName><![CDATA[gh_9ecf92e38722]]></FromUserName>'+
         '<CreateTime></CreateTime>'+
-        '<MsgType><![CDATA[text]]></MsgType>'+
-        	'<Content><![CDATA[请点击授权：<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=011nkkGy-kvIltRn></img>]]></Content>'+
+        '<MsgType><![CDATA[link]]></MsgType>'+
+        '<Title><![CDATA[公众平台官网链接]]></Title>'+
+        '<Description><![CDATA[公众平台官网链接]]></Description>'+
+        '<Url><![CDATA[http://www.baidu.com]]></Url>'+
     '</xml>'
 
 
