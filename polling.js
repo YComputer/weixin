@@ -38,7 +38,7 @@ module.exports = function(config) {
                         url: url,
                         json: true
                     }).then(function(response) {
-                      console.log(response.body)
+                      console.log(response)
                         //resolve(response.body)
                     }).error(function(err) {
                         //reject(err)
