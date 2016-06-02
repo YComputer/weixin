@@ -66,10 +66,10 @@ module.exports = function(config) {
         var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
         this.body = htmlSource
 
-        return next
-            // }
-        console.log('进入－－－－－根路由－－－－－')
-        yield next
+        // return next
+        //     // }
+        // console.log('进入－－－－－根路由－－－－－')
+        // yield next
     }
 
 }
