@@ -19,7 +19,7 @@ var app = new koa()
 
 app.use(route.get('/auth/authWeixinOpen', authWeixinOpen(config)))
 app.use(route.get('/auth/authWeixinOpenDebug', authWeixinOpenDebug(config)))
-app.use(route.get('/auth/polling', polling(config)))
+app.use(route.get('/auth/polling/:timestamp', polling(config)))
 app.use(route.get('/callbackOfAuthWeixinOpen', callbackOfAuthWeixinOpen(config)))
 app.use(gongZhongHaoMiddleware(config.weixinGongzhonghao, gongZhongHaoHandler.reply))
 app.use(rootRouter(config.weixinOpenGongzhonghao))

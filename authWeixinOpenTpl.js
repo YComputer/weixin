@@ -31,7 +31,7 @@ var tpl = heredoc(function() {
                     // 通知自己的server开始轮询。
 
 
-                    $.getJSON('http://101.200.159.232/auth/polling', function(response){
+                    $.getJSON('http://101.200.159.232/auth/polling/:timespam', function(response){
                       console.log(response)
                     })
                     // 跨域问题，妥协解决办法
