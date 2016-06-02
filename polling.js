@@ -32,17 +32,18 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
             setInterval(function(url) {
-                var body = new Promise(function(resolve, reject) {
+
                     request({
                         method: 'GET',
                         url: url,
                         json: true
                     }).then(function(response) {
-                        resolve(response.body)
+                      console.log(response.body)
+                        //resolve(response.body)
                     }).error(function(err) {
                         //reject(err)
                     })
-                })
+
                 console.log(JSON.stringify(body))
             }, 5000)
 
