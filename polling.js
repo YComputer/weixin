@@ -38,8 +38,8 @@ module.exports = function(config) {
                     url: url,
                     json: true
                 }).then(function(response) {
+                  console.log(JSON.stringify(response))
                     resolve(response)
-                    console.log(JSON.stringify(response))
                 }).error(function(err) {
                     //reject(err)
                 })
