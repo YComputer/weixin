@@ -31,20 +31,28 @@ module.exports = function(config) {
                 '&token=&lang=zh_CN&f=json&ajax=1' +
                 '&random=' + random
             console.log('polling url ' + url)
-            setInterval(function(url) {
-
-                    request({
-                        method: 'GET',
-                        url: url,
-                        json: true
-                    }).then(function(response) {
-                      console.log(response)
-                        //resolve(response.body)
-                    }).error(function(err) {
-                        //reject(err)
-                    })
-
-            }, 5000)
+            request({
+                method: 'GET',
+                url: url,
+                json: true
+            }).then(function(response) {
+                console.log(response)
+                    //resolve(response.body)
+            }).error(function(err) {
+                //reject(err)
+            })
+            // setInterval(function(url) {
+            //     request({
+            //         method: 'GET',
+            //         url: url,
+            //         json: true
+            //     }).then(function(response) {
+            //         console.log(response)
+            //             //resolve(response.body)
+            //     }).error(function(err) {
+            //         //reject(err)
+            //     })
+            // }, 5000)
 
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
