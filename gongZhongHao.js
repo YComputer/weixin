@@ -1068,20 +1068,20 @@ GongZhongHao.prototype.send = function() {
     this.status = 200
     this.type = 'application/xml'
 
-    var text =
-    '<xml>'+
-        '<ToUserName><![CDATA[ojwNnwywAH5IIDydgK1chWbFkpLI]]></ToUserName>'+
-        '<FromUserName><![CDATA[gh_9ecf92e38722]]></FromUserName>'+
-        '<CreateTime></CreateTime>'+
-        '<MsgType><![CDATA[link]]></MsgType>'+
-        '<Title><![CDATA[公众平台官网链接]]></Title>'+
-        '<Description><![CDATA[公众平台官网链接]]></Description>'+
-        '<Url><![CDATA[http://www.baidu.com]]></Url>'+
-    '</xml>'
+    // var text =
+    // '<xml>'+
+    //     '<ToUserName><![CDATA[ojwNnwywAH5IIDydgK1chWbFkpLI]]></ToUserName>'+
+    //     '<FromUserName><![CDATA[gh_9ecf92e38722]]></FromUserName>'+
+    //     '<CreateTime></CreateTime>'+
+    //     '<MsgType><![CDATA[link]]></MsgType>'+
+    //     '<Title><![CDATA[公众平台官网链接]]></Title>'+
+    //     '<Description><![CDATA[公众平台官网链接]]></Description>'+
+    //     '<Url><![CDATA[http://www.baidu.com]]></Url>'+
+    // '</xml>'
 
 
 
-    this.body = text
+    this.body = xml
 }
 
 module.exports = GongZhongHao
