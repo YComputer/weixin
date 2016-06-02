@@ -4,7 +4,6 @@ var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
 var request = Promise.promisify(require('request'))
-    // var request = require('request')
 var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
 var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
 
@@ -15,12 +14,8 @@ var api = {
     prePuthCode: prefix + 'api_create_preauthcode?'
 }
 
-
 module.exports = function(config) {
-
     return function*(next) {
-        // if (this.url.indexOf('/authWeixinOpen') > -1) {
-        //------------------------
         var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
         console.log('read verify tcket is: ', componentVerifyTicket)
             //------------------------
@@ -60,16 +55,11 @@ module.exports = function(config) {
             })
         })
         console.log('pre auth code is: ', preAuthCode)
-            //------------------------
         var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
-        // var redirect = 'http://fooads.com/'
         var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
         this.body = htmlSource
 
         // return next
-        //     // }
-        // console.log('进入－－－－－根路由－－－－－')
-        // yield next
     }
 
 }
