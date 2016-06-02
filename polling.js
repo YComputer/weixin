@@ -33,16 +33,16 @@ module.exports = function(config) {
             console.log('polling url ' + url)
 
             setInterval(function(url) {
-                var rep = request({
+                request({
                     method: 'GET',
                     url: url,
                     json: true
                 }).then(function(response) {
                     resolve(response)
+                    console.log(JSON.stringify(response))
                 }).error(function(err) {
                     //reject(err)
                 })
-                console.log(JSON.stringify(rep))
             }, 5000)
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
