@@ -28,12 +28,15 @@ var tpl = heredoc(function() {
                               '&token=&lang=zh_CN&f=json&ajax=1' +
                               '&random='+random
                     console.log('polling url '+ url)
-                    window.setInterval(function(url){
-                    $.getJSON(url, function(data){
-  console.log(data)
-})
-                
-                  }, 5000);
+                      $.getJSON(url, function(data){
+                        console.log(data)
+                      })
+                  //   window.setInterval(function(url){
+                  //   $.getJSON(url, function(data){
+                  //     console.log(data)
+                  //   })
+                  //
+                  // }, 5000);
                 }
 
 
