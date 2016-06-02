@@ -43,7 +43,7 @@ module.exports = function(config) {
             //     //reject(err)
             // })
 
-            setInterval(function(url) {
+            setInterval(function() {
               request(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                   console.log(body) // Show the HTML for the Google homepage.
