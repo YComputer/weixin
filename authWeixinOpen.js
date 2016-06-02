@@ -16,6 +16,9 @@ var api = {
 
 module.exports = function(config) {
     return function*(next) {
+
+        console.log('headers----',this.request.headers)
+
         var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
         console.log('read verify tcket is: ', componentVerifyTicket)
             //------------------------
