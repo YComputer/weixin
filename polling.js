@@ -21,7 +21,7 @@ var api = {
 
 module.exports = function(config) {
     return function*(next) {
-        console.log(next)
+        console.log('polling next is -----', next)
         pollingResult.isEnd = true
         this.body = JSON.stringify(pollingResult.isEnd)
     }
