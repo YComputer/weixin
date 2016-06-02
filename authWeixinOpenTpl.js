@@ -29,22 +29,10 @@ var tpl = heredoc(function() {
                               '&random='+random
                     console.log('polling url '+ url)
                     window.setInterval(function(url){
-                      $.ajax({
-                          type: 'get',
-                          url: url,
-                          dataType: 'jsonp',
-                          jsonp: 'callback',
-                          success: function(response){
-                              var errcode = response.errcode
-                              if(errcode === 405){
-                              console.log(errcode)
-                              }else{
-                              console.log(errcode)
-
-                            }
-
-                          }
-                      })
+                    $.getJSON(url, function(data){
+  console.log(data)
+})
+                
                   }, 5000);
                 }
 
