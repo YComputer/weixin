@@ -49,7 +49,7 @@ module.exports = function(config) {
                     url: url,
                     json: true
                 }, function(err,response,body){
-                  console.log(JSON.stringify(body))
+                  console.log(JSON.stringify(response))
                 })
             }, 5000)
 
