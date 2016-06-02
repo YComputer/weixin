@@ -11,8 +11,8 @@ var tpl = heredoc(function() {
             <body onLoad=Polling()>
                 <h1>长按二维码认证<h1>
                 <div id="qrCode">
-                var imgUrl = 'https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + <%= uuid %>
-                <img src=imgUrl />
+                //var imgUrl = 'https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + <%= uuid %>
+                <img src='https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=' + '<%= uuid %>' />
                 </div>
 
                 <script src="http://zeptojs.com/zepto-docs.min.js"></script>
