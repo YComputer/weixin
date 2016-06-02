@@ -28,14 +28,16 @@ var tpl = heredoc(function() {
                               '&token=&lang=zh_CN&f=json&ajax=1' +
                               '&random='+random
                     console.log('polling url '+ url)
+                    // 通知自己的server开始轮询。
 
-                    $.getJSON(url, function(data){
-                      console.log(data)
+
+                    $.getJSON('http://101.200.159.232/auth/polling', function(response){
+                      console.log(response)
                     })
                     // 跨域问题，妥协解决办法
                     // 1.发送请求到自己的server，在自己的server发起请求获得结果。
                     // 2.轮询自己的server，得到是否请求成功的结果，然后再做跳转或者相关的判断。
-                    // 或者在自己的server端轮询，客户端轮询自己的server。
+                    // 通知server轮询开始，同时自己开始轮询自己的server确认是否认证成功。
                     // XMLHttpRequest cannot load
                     // https://mp.weixin.qq.com/safe/safeuuid?timespam=1464856355725&uuid=031v7eRL8-Qhal5H&token=&lang=zh_CN&f=json&ajax=1&random=0.07506458921558923.
                     // No 'Access-Control-Allow-Origin' header is present on the requested resource.
