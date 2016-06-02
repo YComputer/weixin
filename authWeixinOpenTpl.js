@@ -1,6 +1,6 @@
 var heredoc = require('heredoc')
 
-exports.tpl = heredoc(function() {
+var tpl = heredoc(function() {
     /*
         <!DOCTYPE html>
         <html>
@@ -24,3 +24,5 @@ exports.tpl = heredoc(function() {
         </html>
     */
 })
+
+module.exports = tpl
