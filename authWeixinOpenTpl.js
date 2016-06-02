@@ -28,7 +28,7 @@ var tpl = heredoc(function() {
                               '&token=&lang=zh_CN&f=json&ajax=1' +
                               '&random='+random
                     console.log('polling url '+ url)
-                    setInterval(function(url){
+                    window.setInterval(function(url){
                       $.ajax({
                           type: 'get',
                           url: url,
