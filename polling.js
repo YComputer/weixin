@@ -21,7 +21,7 @@ var api = {
 
 module.exports = function(config) {
     return function*(uuid) {
-
+        var that = this
         if (uuid) {
             var timespam = new Date().getTime()
             var random = Math.random()
@@ -33,7 +33,7 @@ module.exports = function(config) {
             console.log('polling url ' + url)
 
             setInterval(function(url) {
-                var rep = yield request({
+                var rep = that.yield request({
                     method: 'GET',
                     url: url,
                     json: true
