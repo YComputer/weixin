@@ -20,9 +20,35 @@ var api = {
 }
 
 module.exports = function(config) {
-    return function*(next) {
-        console.log('polling next is -----', next)
-        pollingResult.isEnd = true
-        this.body = JSON.stringify(pollingResult.isEnd)
+    return function*(uuid) {
+
+        if (uuid) {
+            var timespam = new Date().getTime()
+            var random = Math.random()
+            var url = 'https://mp.weixin.qq.com/safe/safeuuid?' +
+                'timespam=' + timespam +
+                '&uuid=' + uuid +
+                '&token=&lang=zh_CN&f=json&ajax=1' +
+                '&random=' + random
+            console.log('polling url ' + url)
+
+            setInterval(function(url) {
+                var rep = yield request({
+                    method: 'GET',
+                    url: url,
+                    json: true
+                }).then(function(response) {
+                    resolve(response)
+                }).error(function(err) {
+                    reject(err)
+                })
+                console.log(JSON.stringify(rep))
+            }, 5000)
+            pollingResult.isEnd = true
+            this.body = JSON.stringify(pollingResult.isEnd)
+        } else {
+            this.body = 'uuid is not received'
+        }
+
     }
 }
