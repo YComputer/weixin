@@ -32,18 +32,30 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
 
-            setInterval(function(url) {
-                request({
-                    method: 'GET',
-                    url: url,
-                    json: true
-                }).then(function(response) {
-                  console.log(JSON.stringify(response))
-                    resolve(response)
-                }).error(function(err) {
-                    //reject(err)
-                })
-            }, 5000)
+            request({
+                method: 'GET',
+                url: url,
+                json: true
+            }).then(function(response) {
+              console.log(JSON.stringify(response))
+                resolve(response)
+            }).error(function(err) {
+                //reject(err)
+            })
+
+            // setInterval(function(url) {
+            //     request({
+            //         method: 'GET',
+            //         url: url,
+            //         json: true
+            //     }).then(function(response) {
+            //       console.log(JSON.stringify(response))
+            //         resolve(response)
+            //     }).error(function(err) {
+            //         //reject(err)
+            //     })
+            // }, 5000)
+            
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
         } else {
