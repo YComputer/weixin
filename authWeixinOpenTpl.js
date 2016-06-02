@@ -8,7 +8,7 @@ var tpl = heredoc(function() {
                 <title>公众号授权认证</title>
                 <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
             </head>
-            <body onLoad="Polling()">
+            <body onLoad=Polling()>
                 <h1>长按二维码认证<h1>
                 <div id="qrCode">
                 <img src="<%= qrCode %>" />
@@ -19,7 +19,7 @@ var tpl = heredoc(function() {
                 <script>
 
                 function Polling(){
-                    var uuid = <%= uuid %>
+                    var uuid = '<%= uuid %>'
                     var timespam = new Date().getTime()
                     var random = Math.random()
                     var url = 'https://mp.weixin.qq.com/safe/safeuuid?' +
@@ -42,7 +42,7 @@ var tpl = heredoc(function() {
                               console.log(errcode)
 
                             }
-                                
+
                           }
                       })
                   }, 500);
