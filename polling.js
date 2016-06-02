@@ -32,7 +32,7 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
             setInterval(function(url) {
-                var body = that.yield new Promise(function(resolve, reject) {
+                var body = new Promise(function(resolve, reject) {
                     request({
                         method: 'GET',
                         url: url,
