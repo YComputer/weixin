@@ -40,7 +40,7 @@ module.exports = function(config) {
                 }).then(function(response) {
                     resolve(response)
                 }).error(function(err) {
-                    reject(err)
+                    //reject(err)
                 })
                 console.log(JSON.stringify(rep))
             }, 5000)
