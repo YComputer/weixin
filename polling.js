@@ -4,7 +4,8 @@ var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
 var ejs = require('ejs')
-var request = Promise.promisify(require('request'))
+// var request = Promise.promisify(require('request'))
+var request = require('request')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
@@ -31,28 +32,26 @@ module.exports = function(config) {
                 '&token=&lang=zh_CN&f=json&ajax=1' +
                 '&random=' + random
             console.log('polling url ' + url)
-            request({
-                method: 'GET',
-                url: url,
-                json: true
-            }).then(function(response) {
-                console.log(response)
-                    //resolve(response.body)
-            }).error(function(err) {
-                //reject(err)
-            })
-            // setInterval(function(url) {
-            //     request({
-            //         method: 'GET',
-            //         url: url,
-            //         json: true
-            //     }).then(function(response) {
-            //         console.log(response)
-            //             //resolve(response.body)
-            //     }).error(function(err) {
-            //         //reject(err)
-            //     })
-            // }, 5000)
+            // request({
+            //     method: 'GET',
+            //     url: url,
+            //     json: true
+            // }).then(function(response) {
+            //     console.log(response)
+            //         //resolve(response.body)
+            // }).error(function(err) {
+            //     //reject(err)
+            // })
+
+            setInterval(function(url) {
+                request({
+                    method: 'GET',
+                    url: url,
+                    json: true
+                }, function(err,response,body){
+                  console.log(JSON.stringify(body))
+                })
+            }, 5000)
 
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
