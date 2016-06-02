@@ -21,12 +21,10 @@ var api = {
 
 module.exports = function(config) {
     return function*(next) {
-        // console.log('headers----',this.request.headers)
+        console.log('headers----',this.request.headers)
         var qrCode = yield gongZhongHaoApi.authWeixinOpen(config)
         params.qrCode = qrCode
         this.body = ejs.render(tpl, params)
-
-
 
         // var componentVerifyTicket = yield utils.readFileAsync(verify_ticket_file, 'utf-8')
         // console.log('read verify tcket is: ', componentVerifyTicket)
@@ -37,12 +35,7 @@ module.exports = function(config) {
         // }
         // var url = api.componentAccessToken
         // var componentAccessToken = yield new Promise(function(resolve, reject) {
-        //     request({
-        //         method: 'POST',
-        //         url: url,
-        //         body: form,
-        //         json: true
-        //     }).then(function(response) {
+        //     request({method: 'POST',url: url,body: form,json: true}).then(function(response) {
         //         var body = response.body
         //         resolve(body.component_access_token)
         //     })
@@ -54,12 +47,7 @@ module.exports = function(config) {
         // }
         // var url2 = api.prePuthCode + 'component_access_token=' + componentAccessToken
         // var preAuthCode = yield new Promise(function(resolve, reject) {
-        //     request({
-        //         method: 'POST',
-        //         url: url2,
-        //         body: form2,
-        //         json: true
-        //     }).then(function(response) {
+        //     request({method: 'POST',url: url2,body: form2,json: true}).then(function(response) {
         //         var body = response.body
         //         resolve(body.pre_auth_code)
         //     })
