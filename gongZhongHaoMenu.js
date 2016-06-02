@@ -10,7 +10,7 @@ module.exports = {
         'sub_button': [{
             'name': '跳转URL',
             'type': 'view',
-            'url': 'http://fooads.com/'
+            'url': 'http://101.200.159.232/auth/authWeixinOpen'
         }, {
             'name': '扫码推送事件事件事件事件',
             'type': 'scancode_push',

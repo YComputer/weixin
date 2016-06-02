@@ -3,8 +3,8 @@
 var path = require('path')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
-var menu = require('./gongZhongHaoMenu')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
+var menu = require('./gongZhongHaoMenu')
 
 // 原因是fetchAccessToken 忘加return了。
 // gongZhongHaoApi.deleteMenu().then(function(data){
