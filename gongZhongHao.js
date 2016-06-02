@@ -1081,7 +1081,7 @@ GongZhongHao.prototype.send = function() {
     //     	'<Content><![CDATA[请点击授权：<img src=https://mp.weixin.qq.com/safe/safeqrcode?action=bindcomponent&uuid=011nkkGy-kvIltRn></img>]]></Content>'+
     // '</xml>'
 
-    this.body = '<a href="http://www.anyv.net/"'+'>欢迎使用微信大全</a>'
+    this.body = xml
 }
 
 module.exports = GongZhongHao
