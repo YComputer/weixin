@@ -28,18 +28,23 @@ var tpl = heredoc(function() {
                               '&token=&lang=zh_CN&f=json&ajax=1' +
                               '&random='+random
                     console.log('polling url '+ url)
+
                       $.getJSON(url, function(data){
                         console.log(data)
                       })
-                  //   window.setInterval(function(url){
-                  //   $.getJSON(url, function(data){
-                  //     console.log(data)
-                  //   })
-                  //
-                  // }, 5000);
+                      // 跨域问题，解决办法是发送请求到自己的server，在自己的server发起请求。
+                      // XMLHttpRequest cannot load
+                      // https://mp.weixin.qq.com/safe/safeuuid?timespam=1464856355725&uuid=031v7eRL8-Qhal5H&token=&lang=zh_CN&f=json&ajax=1&random=0.07506458921558923.
+                      // No 'Access-Control-Allow-Origin' header is present on the requested resource.
+                      // Origin 'http://101.200.159.232' is therefore not allowed access.
+
+                      //   window.setInterval(function(url){
+                      //   $.getJSON(url, function(data){
+                      //     console.log(data)
+                      //   })
+                      //
+                      // }, 5000);
                 }
-
-
 
                 // 这里应该轮询授权认证结果
                 // 轮询 https://mp.weixin.qq.com/safe/safeuuid?timespam=1464851582748&uuid=041HFCIkI-QzulFz&token=&lang=zh_CN&f=json&ajax=1&random=0.896635042167595
@@ -76,9 +81,6 @@ var tpl = heredoc(function() {
                 //     "biz_mp_mchid": 0
                 //     }
                 // }
-
-                // $('#qrCode').html('<img src="' + subject.images.large+'" />')
-
 
                 </script>
             </body>
