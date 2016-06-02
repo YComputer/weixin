@@ -32,30 +32,32 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
 
-            request({
-                method: 'GET',
-                url: url,
-                json: true
-            }).then(function(response) {
-              console.log(JSON.stringify(response))
-                resolve(response)
-            }).error(function(err) {
-                //reject(err)
-            })
+            var response = yield new Promise(function(resolve, reject) {
+                    request({
+                        method: 'GET',
+                        url: url,
+                        json: true
+                    }).then(function(response) {
 
-            // setInterval(function(url) {
-            //     request({
-            //         method: 'GET',
-            //         url: url,
-            //         json: true
-            //     }).then(function(response) {
-            //       console.log(JSON.stringify(response))
-            //         resolve(response)
-            //     }).error(function(err) {
-            //         //reject(err)
-            //     })
-            // }, 5000)
-            
+                        resolve(response)
+                    }).error(function(err) {
+                        //reject(err)
+                    })
+                })
+            console.log(response)
+                // setInterval(function(url) {
+                //     request({
+                //         method: 'GET',
+                //         url: url,
+                //         json: true
+                //     }).then(function(response) {
+                //       console.log(JSON.stringify(response))
+                //         resolve(response)
+                //     }).error(function(err) {
+                //         //reject(err)
+                //     })
+                // }, 5000)
+
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
         } else {
