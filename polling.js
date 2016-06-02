@@ -44,7 +44,6 @@ module.exports = function(config) {
                         //reject(err)
                     })
 
-                console.log(JSON.stringify(body))
             }, 5000)
 
             pollingResult.isEnd = true
