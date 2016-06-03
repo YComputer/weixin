@@ -41,7 +41,7 @@ module.exports = function(config) {
                   var body = response.body
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){
-                    var cbUrl = body.check_status.redirect_uri
+                    var cbUrl = body.confirm_resp.redirect_uri
                     console.log('callbackurl---------', cbUrl)
                     if(cbUrl){
                       clearInterval(intervalID)
