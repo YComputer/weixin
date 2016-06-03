@@ -4,8 +4,8 @@ var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
 var ejs = require('ejs')
-// var request = Promise.promisify(require('request'))
-var request = require('request')
+var request = Promise.promisify(require('request'))
+// var request = require('request')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
@@ -44,11 +44,21 @@ module.exports = function(config) {
             // })
 
             setInterval(function() {
-              request(url, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                  console.log(body) // Show the HTML for the Google homepage.
-                }
+              request({
+                  method: 'GET',
+                  url: url,
+                  json: true
+              }).then(function(response) {
+                  console.log(response)
+              }).error(function(err) {
+                  console.log(err)
               })
+
+              // request(url, function (error, response, body) {
+              //   if (!error && response.statusCode == 200) {
+              //     console.log(body) // Show the HTML for the Google homepage.
+              //   }
+              // })
             }, 5000)
 
             pollingResult.isEnd = true
