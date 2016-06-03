@@ -40,9 +40,9 @@ var tpl = heredoc(function() {
                             if (cbUrl) {
                                 window.location = cbUrl
                                 // clearInterval(intervalID)
-                                // $.getJSON(cbUrl, function(response){
-                                console.log(response)
-                              })
+                              //   $.getJSON(cbUrl, function(response){
+                              //   console.log(response)
+                              // })
 
                             }
                         }
