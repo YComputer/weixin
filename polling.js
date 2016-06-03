@@ -5,7 +5,7 @@ var utils = require('./utils')
 var path = require('path')
 var ejs = require('ejs')
 var request = Promise.promisify(require('request'))
-// var request = require('request')
+    // var request = require('request')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
@@ -33,31 +33,34 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
             var intervalID = setInterval(function() {
-              request(url).then(function(response) {
-                  var body = response.body
-                  console.log(response.body)
-                  if(body.errcode && body.errcode === 405){
-                    console.log('callbackurl---------before', cbUrl)
-                    var cbUrl = body.confirm_resp.redirect_uri.replace('"','')
-                    console.log('callbackurl---------', cbUrl)
-                    if(cbUrl){
-                      clearInterval(intervalID)
-                      // 回调url
-                      request({
-                          method: 'GET',
-                          url: cbUrl,
-                          json: true
-                      }).then(function(response) {
-                          var body = response.body
-                          console.log('轮询正确后的回调结果', response.body)
-                      }).error(function(err) {
-                          console.log(err)
-                      })
+                request({
+                    method: 'GET',
+                    url: url,
+                    json: true
+                }).then(function(response) {
+                    var body = response.body
+                    console.log(response.body)
+                    if (body.errcode && body.errcode === 405) {
+                        // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
+                        var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                        console.log('callbackurl---------', cbUrl)
+                        if (cbUrl) {
+                            clearInterval(intervalID)
+                            request({
+                                method: 'GET',
+                                url: cbUrl,
+                                json: true
+                            }).then(function(response) {
+                                var body = response.body
+                                    //console.log('轮询正确后的回调结果', response.body)
+                            }).error(function(err) {
+                                console.log(err)
+                            })
+                        }
                     }
-                  }
-              }).error(function(err) {
-                  console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr',err)
-              })
+                }).error(function(err) {
+                    console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
+                })
             }, 3000)
 
             pollingResult.isEnd = true
