@@ -33,14 +33,11 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
             var intervalID = setInterval(function() {
-              request({
-                  method: 'GET',
-                  url: url,
-                  json: true
-              }).then(function(response) {
+              request(url).then(function(response) {
                   var body = response.body
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){
+                    console.log('callbackurl---------before', cbUrl)
                     var cbUrl = body.confirm_resp.redirect_uri.replace('"','')
                     console.log('callbackurl---------', cbUrl)
                     if(cbUrl){
