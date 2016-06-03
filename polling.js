@@ -41,18 +41,20 @@ module.exports = function(config) {
                     var body = response.body
                     console.log(response.body)
                     if (body.errcode && body.errcode === 405) {
+                      clearInterval(intervalID)
+                      
                         // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
                         var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
                         console.log('callbackurl---------', cbUrl)
                         if (cbUrl) {
-                            clearInterval(intervalID)
+                            //clearInterval(intervalID)
                             request({
                                 method: 'GET',
                                 url: cbUrl,
                                 json: true
                             }).then(function(response) {
                                 var body = response.body
-                                    //console.log('轮询正确后的回调结果', response.body)
+                                // 通知客户端认证成功，传递跳转url。
                             }).error(function(err) {
                                 console.log(err)
                             })
