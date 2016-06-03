@@ -31,11 +31,21 @@ var tpl = heredoc(function() {
                     // 通知自己的server开始轮询。这是错误的，正确的做法是轮询自己的server。
 
                     var intervalID = setInterval(function() {
-                    
                       $.getJSON('http://101.200.159.232/auth/polling/'+uuid, function(response){
                         console.log(response)
-                      })
+                        if (response.errcode && response.errcode === 405) {
+                            // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
+                            var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                            console.log('callbackurl---------', cbUrl)
+                            if (cbUrl) {
+                                clearInterval(intervalID)
+                                $.getJSON(cbUrl, function(response){
+                                console.log(response)
+                              })
 
+                            }
+                        }
+                      })
                     }, 3000)
 
 

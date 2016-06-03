@@ -45,7 +45,6 @@ module.exports = function(config) {
             }).error(function(err) {
                 console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
             })
-
             this.body = responseBody
 
             // var intervalID = setInterval(function() {
