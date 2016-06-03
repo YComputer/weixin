@@ -69,7 +69,7 @@ module.exports = function(config) {
                         var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
                         console.log('callbackurl---------', cbUrl)
                         if (cbUrl) {
-                            //clearInterval(intervalID)
+                            clearInterval(intervalID)
                             request({
                                 method: 'GET',
                                 url: cbUrl,
