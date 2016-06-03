@@ -32,13 +32,16 @@ module.exports = function(config) {
                 '&random=' + random
 
             console.log('polling url ' + url)
-            
+
             request({
                 method: 'GET',
                 url: url,
                 json: true
             }).then(function(response) {
-              this.body = response.body
+              if(response.body){
+                this.body = response.body
+                
+              }
             }).error(function(err) {
                 console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
             })
