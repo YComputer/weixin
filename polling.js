@@ -13,6 +13,7 @@ var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
 var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
 var tpl = require('./authWeixinOpenTpl')
 
+var responseBody
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
     componentAccessToken: prefix + 'api_component_token',
@@ -39,12 +40,13 @@ module.exports = function(config) {
                 json: true
             }).then(function(response) {
               if(response.body){
-                this.body = response.body
-                
+                responseBody = response.body
               }
             }).error(function(err) {
                 console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
             })
+
+            this.body = responseBody
 
             // var intervalID = setInterval(function() {
             //     request({
