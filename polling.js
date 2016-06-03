@@ -3,7 +3,6 @@
 var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
-var ejs = require('ejs')
 var request = Promise.promisify(require('request'))
     // var request = require('request')
 var config = require('./config/config')
