@@ -13,6 +13,7 @@ var verify_ticket_file = path.join(__dirname, './config/verify_ticket.txt')
 var component_access_token_file = path.join(__dirname, './config/component_access_token.txt')
 var tpl = require('./authWeixinOpenTpl')
 
+var pollingResult = {}
 var prefix = 'https://api.weixin.qq.com/cgi-bin/component/'
 var api = {
     componentAccessToken: prefix + 'api_component_token',
@@ -30,50 +31,41 @@ module.exports = function(config) {
                 '&uuid=' + uuid +
                 '&token=&lang=zh_CN&f=json&ajax=1' +
                 '&random=' + random
-
             console.log('polling url ' + url)
-            
-            request({
-                method: 'GET',
-                url: url,
-                json: true
-            }).then(function(response) {
-              this.body = response.body
-            }).error(function(err) {
-                console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
-            })
 
-            // var intervalID = setInterval(function() {
-            //     request({
-            //         method: 'GET',
-            //         url: url,
-            //         json: true
-            //     }).then(function(response) {
-            //         var body = response.body
-            //         console.log(response.body)
-            //         if (body.errcode && body.errcode === 405) {
-            //             // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
-            //             var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
-            //             console.log('callbackurl---------', cbUrl)
-            //             if (cbUrl) {
-            //                 clearInterval(intervalID)
-            //                 request({
-            //                     method: 'GET',
-            //                     url: cbUrl,
-            //                     json: true
-            //                 }).then(function(response) {
-            //                     var body = response.body
-            //                         // 通知客户端认证成功，传递跳转url。
-            //                 }).error(function(err) {
-            //                     console.log(err)
-            //                 })
-            //             }
-            //         }
-            //     }).error(function(err) {
-            //         console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
-            //     })
-            // }, 3000)
+            var intervalID = setInterval(function() {
+                request({
+                    method: 'GET',
+                    url: url,
+                    json: true
+                }).then(function(response) {
+                    var body = response.body
+                    console.log(response.body)
+                    if (body.errcode && body.errcode === 405) {
+                        // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
+                        var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                        console.log('callbackurl---------', cbUrl)
+                        if (cbUrl) {
+                            clearInterval(intervalID)
+                            request({
+                                method: 'GET',
+                                url: cbUrl,
+                                json: true
+                            }).then(function(response) {
+                                var body = response.body
+                                    // 通知客户端认证成功，传递跳转url。
+                            }).error(function(err) {
+                                console.log(err)
+                            })
+                        }
+                    }
+                }).error(function(err) {
+                    console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
+                })
+            }, 3000)
 
+            pollingResult.isEnd = true
+            this.body = JSON.stringify(pollingResult.isEnd)
         } else {
             this.body = 'uuid is not received'
         }

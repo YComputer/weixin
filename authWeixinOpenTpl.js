@@ -28,12 +28,19 @@ var tpl = heredoc(function() {
                               '&token=&lang=zh_CN&f=json&ajax=1' +
                               '&random='+random
                     console.log('polling url '+ url)
-                    // 通知自己的server开始轮询。
+                    // 通知自己的server开始轮询。这是错误的，正确的做法是轮询自己的server。
+
+                    var intervalID = setInterval(function() {
+                    
+                      $.getJSON('http://101.200.159.232/auth/polling/'+uuid, function(response){
+                        console.log(response)
+                      })
+
+                    }, 3000)
 
 
-                    $.getJSON('http://101.200.159.232/auth/polling/'+uuid, function(response){
-                      console.log(response)
-                    })
+
+
                     // 跨域问题，妥协解决办法
                     // 1.发送请求到自己的server，在自己的server发起请求获得结果。
                     // 2.轮询自己的server，得到是否请求成功的结果，然后再做跳转或者相关的判断。
