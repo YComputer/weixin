@@ -43,22 +43,17 @@ module.exports = function(config) {
             //     //reject(err)
             // })
 
-            setInterval(function() {
+            var id = setInterval(function() {
               request({
                   method: 'GET',
                   url: url,
                   json: true
               }).then(function(response) {
-                  console.log(response)
+                  console.log(response.body)
+                  clearInterval(id)
               }).error(function(err) {
                   console.log(err)
               })
-
-              // request(url, function (error, response, body) {
-              //   if (!error && response.statusCode == 200) {
-              //     console.log(body) // Show the HTML for the Google homepage.
-              //   }
-              // })
             }, 5000)
 
             pollingResult.isEnd = true
