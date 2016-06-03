@@ -35,7 +35,7 @@ var tpl = heredoc(function() {
                         console.log(response)
                         if (response.errcode && response.errcode === 405) {
                             // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
-                            var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                            var cbUrl = response.confirm_resp.redirect_uri.replace('"', '')
                             console.log('callbackurl---------', cbUrl)
                             if (cbUrl) {
                                 clearInterval(intervalID)
