@@ -42,6 +42,7 @@ module.exports = function(config) {
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){
                     var cbUrl = body.check_status.redirect_uri
+                    console.log('callbackurl---------', cbUrl)
                     if(cbUrl){
                       clearInterval(intervalID)
                       // 回调url
@@ -58,9 +59,9 @@ module.exports = function(config) {
                     }
                   }
               }).error(function(err) {
-                  console.log(err)
+                  console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr',err)
               })
-            }, 1000)
+            }, 3000)
 
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
