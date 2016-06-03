@@ -38,7 +38,7 @@ var tpl = heredoc(function() {
                             var cbUrl = response.confirm_resp.redirect_uri.replace('"', '')
                             console.log('callbackurl---------', cbUrl)
                             if (cbUrl) {
-                                window.location = cbUrl
+                                window.location.replace(cbUrl)
                                 // clearInterval(intervalID)
                               //   $.getJSON(cbUrl, function(response){
                               //   console.log(response)
