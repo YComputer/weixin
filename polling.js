@@ -38,8 +38,25 @@ module.exports = function(config) {
                   url: url,
                   json: true
               }).then(function(response) {
+                  var body = response.body
                   console.log(response.body)
-                  //clearInterval(intervalID)
+                  if(body.errcode && body.errcode === 405){
+                    var cbUrl = body.check_status.redirect_uri
+                    if(cbUrl){
+                      clearInterval(intervalID)
+                      // 回调url
+                      request({
+                          method: 'GET',
+                          url: cbUrl,
+                          json: true
+                      }).then(function(response) {
+                          var body = response.body
+                          console.log('轮询正确后的回调', response.body)
+                      }).error(function(err) {
+                          console.log(err)
+                      })
+                    }
+                  }
               }).error(function(err) {
                   console.log(err)
               })
@@ -53,3 +70,38 @@ module.exports = function(config) {
 
     }
 }
+
+
+// 用户没有授权轮询结果
+// {
+// "errcode": 401
+// "key": ""
+// "pass_ticket": ""
+// "card_name": ""
+// "check_status": 0
+// }
+// 用户授权后的轮询结果
+// {
+// "errcode": 405
+// "code": "041HFCIkI-QzulFz"
+// "appname": "testsecret"
+// "redirect_uri": ""
+// "key": ""
+// "pass_ticket": ""
+// "card_name": ""
+// "check_status": 0
+//     "confirm_resp": {
+//     "redirect_uri": "http://101.200.159.232/callbackOfAuthWeixinOpen?auth_code=queryauthcode@@@-0cUxN76Zvbr_xMldSAm3pRSI8-yEcK6LLbciFfrMBnw7AKO5y-2ApemtMVYNS9KVkYwtfDaQp4LjBll5ToWtg&expires_in=3600"
+//     "component_status": 0
+//     "component_pre_auth_code": "preauthcode@@@Yzn10_CqxomcmC_YEuye1e60SL6x7WeXh-QdLopAJEs9Jesm1cKiwp31hM6ZZ_Df"
+//     "component_appid": "wxb6fa0468346e9059"
+//     "bizuin": "MzI2MzE3MDU0NA=="
+//     "open_component_uin": 0
+//     "open_mp_appid": ""
+//     "open_mp_uin": 0
+//     "open_biz_mp_mchid": 0
+//     "biz_mp_uin": 0
+//     "biz_mp_appid": ""
+//     "biz_mp_mchid": 0
+//     }
+// }
