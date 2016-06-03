@@ -4,8 +4,8 @@ var Promise = require('bluebird')
 var utils = require('./utils')
 var path = require('path')
 var ejs = require('ejs')
-// var request = Promise.promisify(require('request'))
-var request = require('request')
+var request = Promise.promisify(require('request'))
+// var request = require('request')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
@@ -33,61 +33,59 @@ module.exports = function(config) {
                 '&random=' + random
             console.log('polling url ' + url)
 
-            var intervalID = setInterval(function() {
-                request({
-                    method: 'GET',
-                    url: url,
-                    json: true
-                }, function(err, response, body){
-                  console.log(body)
-                  if(body && body.errcode && body.errcode === 405){
-                     var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
-                     if (cbUrl) {
-                         clearInterval(intervalID)
-                         request({
-                             method: 'GET',
-                             url: cbUrl,
-                             json: true
-                         }, function(err, response, body){
-                           console.log('===-=-=-=-=-=--------------=-=-=-==-=-==-=-=-=-=-')
-                         })
-                     }
-                  }
-                })
-            }, 3000)
-
-
-
             // var intervalID = setInterval(function() {
             //     request({
             //         method: 'GET',
             //         url: url,
             //         json: true
-            //     }).then(function(response) {
-            //         var body = response.body
-            //         console.log(response.body)
-            //         if (body.errcode && body.errcode === 405) {
-            //             // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
-            //             var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
-            //             console.log('callbackurl---------', cbUrl)
-            //             if (cbUrl) {
-            //                 //clearInterval(intervalID)
-            //                 request({
-            //                     method: 'GET',
-            //                     url: cbUrl,
-            //                     json: true
-            //                 }).then(function(response) {
-            //                     var body = response.body
-            //                     // 通知客户端认证成功，传递跳转url。
-            //                 }).error(function(err) {
-            //                     console.log(err)
-            //                 })
-            //             }
-            //         }
-            //     }).error(function(err) {
-            //         console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
+            //     }, function(err, response, body){
+            //       console.log(body)
+            //       if(body && body.errcode && body.errcode === 405){
+            //          var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+            //          if (cbUrl) {
+            //              clearInterval(intervalID)
+            //              request({
+            //                  method: 'GET',
+            //                  url: cbUrl,
+            //                  json: true
+            //              }, function(err, response, body){
+            //                console.log('===-=-=-=-=-=--------------=-=-=-==-=-==-=-=-=-=-')
+            //              })
+            //          }
+            //       }
             //     })
             // }, 3000)
+
+            var intervalID = setInterval(function() {
+                request({
+                    method: 'GET',
+                    url: url,
+                    json: true
+                }).then(function(response) {
+                    var body = response.body
+                    console.log(response.body)
+                    if (body.errcode && body.errcode === 405) {
+                        // 这里特别诡异的是返回的url，http://101.200.159.232/callbackOfAuthWeixinOpen后面多了一个双引号
+                        var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                        console.log('callbackurl---------', cbUrl)
+                        if (cbUrl) {
+                            //clearInterval(intervalID)
+                            request({
+                                method: 'GET',
+                                url: cbUrl,
+                                json: true
+                            }).then(function(response) {
+                                var body = response.body
+                                // 通知客户端认证成功，传递跳转url。
+                            }).error(function(err) {
+                                console.log(err)
+                            })
+                        }
+                    }
+                }).error(function(err) {
+                    console.log('eeeeeeeeerrrrrrrrroooooooooorrrrrrrrrrrr', err)
+                })
+            }, 3000)
 
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
