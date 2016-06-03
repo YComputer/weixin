@@ -40,7 +40,9 @@ module.exports = function(config) {
                     json: true
                 }, function(err, response, body){
                   console.log(body)
-                  clearInterval(intervalID)
+                  if(body && body.errcode && body.errcode === 405){
+                    clearInterval(intervalID)
+                  }
                 })
             }, 3000)
 
