@@ -32,29 +32,18 @@ module.exports = function(config) {
                 '&token=&lang=zh_CN&f=json&ajax=1' +
                 '&random=' + random
             console.log('polling url ' + url)
-            // request({
-            //     method: 'GET',
-            //     url: url,
-            //     json: true
-            // }).then(function(response) {
-            //     console.log(response)
-            //         //resolve(response.body)
-            // }).error(function(err) {
-            //     //reject(err)
-            // })
-
-            var id = setInterval(function() {
+            var intervalID = setInterval(function() {
               request({
                   method: 'GET',
                   url: url,
                   json: true
               }).then(function(response) {
                   console.log(response.body)
-                  clearInterval(id)
+                  //clearInterval(intervalID)
               }).error(function(err) {
                   console.log(err)
               })
-            }, 5000)
+            }, 1000)
 
             pollingResult.isEnd = true
             this.body = JSON.stringify(pollingResult.isEnd)
