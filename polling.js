@@ -52,7 +52,7 @@ module.exports = function(config) {
                           json: true
                       }).then(function(response) {
                           var body = response.body
-                          console.log('轮询正确后的回调', response.body)
+                          console.log('轮询正确后的回调结果', response)
                       }).error(function(err) {
                           console.log(err)
                       })
