@@ -42,7 +42,7 @@ module.exports = function(config) {
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){
                     var cbUrl = body.confirm_resp.redirect_uri
-                    console.log('callbackurl---------', cbUrl)
+                    console.log('callbackurl---------', body)
                     if(cbUrl){
                       clearInterval(intervalID)
                       // 回调url
