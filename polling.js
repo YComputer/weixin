@@ -38,7 +38,6 @@ module.exports = function(config) {
                   url: url,
                   json: true
               }).then(function(response) {
-                  console.log(typeof response)
                   var body = response.body
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){

@@ -54,7 +54,7 @@ module.exports = function(config) {
         })
         console.log('pre auth code is: ', preAuthCode)
         var redirect = 'http://101.200.159.232/callbackOfAuthWeixinOpen'
-        var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid="' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '>' + '点击授权</a>'
+        var htmlSource = '<a href="https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=' + config.weixinOpenGongzhonghao.appID + '&pre_auth_code=' + preAuthCode + '&redirect_uri=' + redirect + '">' + '点击授权</a>'
         this.body = htmlSource
         // return next
     }
