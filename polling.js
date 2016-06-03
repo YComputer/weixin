@@ -38,6 +38,7 @@ module.exports = function(config) {
                   url: url,
                   json: true
               }).then(function(response) {
+                  console.log(typeof response)
                   var body = response.body
                   console.log(response.body)
                   if(body.errcode && body.errcode === 405){
@@ -52,7 +53,7 @@ module.exports = function(config) {
                           json: true
                       }).then(function(response) {
                           var body = response.body
-                          console.log('轮询正确后的回调结果', response)
+                          console.log('轮询正确后的回调结果', response.body)
                       }).error(function(err) {
                           console.log(err)
                       })
