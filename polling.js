@@ -5,7 +5,7 @@ var utils = require('./utils')
 var path = require('path')
 var ejs = require('ejs')
 // var request = Promise.promisify(require('request'))
-    var request = require('request')
+var request = require('request')
 var config = require('./config/config')
 var GongZhongHao = require('./gongZhongHao')
 var gongZhongHaoApi = new GongZhongHao(config.weixinGongzhonghao)
@@ -41,7 +41,17 @@ module.exports = function(config) {
                 }, function(err, response, body){
                   console.log(body)
                   if(body && body.errcode && body.errcode === 405){
-                    clearInterval(intervalID)
+                     var cbUrl = body.confirm_resp.redirect_uri.replace('"', '')
+                     if (cbUrl) {
+                         clearInterval(intervalID)
+                         request({
+                             method: 'GET',
+                             url: cbUrl,
+                             json: true
+                         }, function(err, response, body){
+                           console.log('===-=-=-=-=-=--------------=-=-=-==-=-==-=-=-=-=-')
+                         })
+                     }
                   }
                 })
             }, 3000)
