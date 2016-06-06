@@ -49,7 +49,7 @@ module.exports = function(config, replyHandler) {
                 // 组合完数据后，处理完业务逻辑后，将消息返回给微信server端。
                 gongZhongHao.send.call(this)
 
-                //return next
+                return
 
             } else {
               yield next
