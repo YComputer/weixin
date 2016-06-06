@@ -19,6 +19,7 @@ module.exports = function(config, replyHandler) {
         if (sha === signature) {
             if (this.method === 'GET') {
                 console.log('gongZhongHaoMiddleware \n' + ' method is %s \n url is %s \n data is %s \n' , this.method, this.url, JSON.stringify(this.query))
+                console.log(echostr)
                 //this.body = echostr + ''
 
             } else if (this.method === 'POST') {
