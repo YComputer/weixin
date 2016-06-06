@@ -1082,7 +1082,7 @@ GongZhongHao.prototype.send = function() {
     // '</xml>'
 
 
-
+    console.log('reply message is---', xml)
     this.body = xml
 }
 
