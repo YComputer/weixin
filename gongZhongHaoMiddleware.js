@@ -29,13 +29,11 @@ module.exports = function(config, replyHandler) {
                     limit: '1mb',
                     encoding: this.charset
                 })
-                console.log('raw data post from weixin server\n', data.toString())
-
+                //console.log('raw data post from weixin gzh\n', data.toString())
                 var content = yield utils.parseXMLAsync(data)
-                console.log('raw data to json object\n', content)
-
+                //console.log('raw data to json object\n', content)
                 var message = utils.formatMessage(content.xml)
-                console.log('json object to plain json object\n', message)
+                console.log('weixin gzh message\n', message)
 
                 // 将解析后的数据添加到当前引用的属性weixin中
                 //console.log('添加前的this', this)
