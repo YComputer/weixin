@@ -1064,7 +1064,8 @@ GongZhongHao.prototype.semantic = function(semanticData) {
 GongZhongHao.prototype.send = function() {
     var content = this.body
     var message = this.weixin
-
+    console.log('content',content)
+    console.log('message',message)
     var xml = utils.tpl(content, message)
 
     this.status = 200
